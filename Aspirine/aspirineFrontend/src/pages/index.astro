@@ -3,11 +3,19 @@ import Layout from '../layouts/Layout.astro';
 import ConnectWallet from '../components/connect-wallet.astro';
 ---
 
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 <Layout>
 	<div class="landing">
 		<div class="hero">
+			
+			<!-- PROJECT LOGO -->
 			<img src="https://cryptologos.cc/logos/stellar-xlm-logo.svg" alt="Stellar" class="hero-logo">
-			<h1>🏥 Emergency Fund Release DAO</h1>
+
+			<!-- TITLE IN GREEN -->
+			<h1 class="project-title">Aspirine — Emergency Fund DAO</h1>
+
 			<p class="tagline">Decentralized medical emergency funding on the Stellar blockchain</p>
 			
 			<div class="wallet-container">
@@ -41,10 +49,17 @@ import ConnectWallet from '../components/connect-wallet.astro';
 </Layout>
 
 <style>
+	/* GLOBAL RESET + POPPINS */
 	:global(body) {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		font-family: "Poppins", sans-serif;
+		background: #000; /* Black background */
+		color: #fff; /* White text */
 		margin: 0;
 		min-height: 100vh;
+	}
+
+	h1, h2, h3, p, a, button, span {
+		font-family: "Poppins", sans-serif;
 	}
 
 	.landing {
@@ -57,14 +72,22 @@ import ConnectWallet from '../components/connect-wallet.astro';
 
 	.hero {
 		text-align: center;
-		color: white;
 		max-width: 900px;
 	}
 
+	.project-title {
+		font-size: 3rem;
+		font-weight: 800;
+		margin-bottom: 1rem;
+		color: #00ff88; /* Green title */
+		text-shadow: 0 0 12px rgba(0,255,140,0.25);
+		animation: fadeIn 0.8s ease;
+	}
+
 	.hero-logo {
-		width: 100px;
-		height: 100px;
-		filter: drop-shadow(0 4px 20px rgba(255,255,255,0.3));
+		width: 90px;
+		height: 90px;
+		filter: drop-shadow(0 4px 20px rgba(0,255,140,0.25));
 		margin-bottom: 1.5rem;
 		animation: float 3s ease-in-out infinite;
 	}
@@ -74,47 +97,36 @@ import ConnectWallet from '../components/connect-wallet.astro';
 		50% { transform: translateY(-10px); }
 	}
 
-	h1 {
-		font-size: 3rem;
-		margin: 0 0 1rem;
-		font-weight: 800;
-		text-shadow: 0 4px 12px rgba(0,0,0,0.2);
-		animation: fadeIn 0.8s ease;
-	}
-
 	.tagline {
-		font-size: 1.3rem;
+		font-size: 1.2rem;
 		margin-bottom: 2rem;
-		opacity: 0.95;
-		animation: fadeIn 1s ease 0.2s both;
+		opacity: 0.85;
 	}
 
 	.wallet-container {
 		max-width: 500px;
 		margin: 2rem auto;
-		animation: fadeIn 1.2s ease 0.4s both;
 	}
 
+	/* WHITE BUTTON WITH GREEN ACCENT */
 	.cta-button {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
-		padding: 1.2rem 2.5rem;
-		background: white;
-		color: #667eea;
+		padding: 1.1rem 2.3rem;
+		background: #fff;
+		color: #000;
 		text-decoration: none;
 		font-size: 1.2rem;
 		font-weight: 700;
 		border-radius: 50px;
-		box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+		box-shadow: 0 0 20px rgba(0,255,140,0.25);
 		transition: all 0.3s ease;
-		animation: fadeIn 1.4s ease 0.6s both;
 	}
 
 	.cta-button:hover {
 		transform: translateY(-4px);
-		box-shadow: 0 12px 32px rgba(0,0,0,0.3);
-		background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+		box-shadow: 0 0 30px rgba(0,255,140,0.4);
 	}
 
 	.cta-button .arrow {
@@ -125,27 +137,26 @@ import ConnectWallet from '../components/connect-wallet.astro';
 		transform: translateX(5px);
 	}
 
+	/* FEATURES */
 	.features {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 		gap: 2rem;
 		margin-top: 4rem;
-		animation: fadeIn 1.6s ease 0.8s both;
 	}
 
 	.feature {
-		background: rgba(255,255,255,0.15);
-		backdrop-filter: blur(10px);
+		background: rgba(255,255,255,0.05);
 		padding: 2rem;
-		border-radius: 20px;
-		border: 2px solid rgba(255,255,255,0.2);
+		border-radius: 16px;
+		border: 1px solid rgba(255,255,255,0.12);
 		transition: all 0.3s ease;
 	}
 
 	.feature:hover {
-		transform: translateY(-8px);
-		background: rgba(255,255,255,0.25);
-		border-color: rgba(255,255,255,0.4);
+		transform: translateY(-6px);
+		border-color: #00ff88;
+		box-shadow: 0 0 16px rgba(0,255,140,0.2);
 	}
 
 	.feature-icon {
@@ -154,39 +165,28 @@ import ConnectWallet from '../components/connect-wallet.astro';
 	}
 
 	.feature h3 {
-		margin: 0 0 0.5rem;
+		margin: 0;
 		font-size: 1.3rem;
+		font-weight: 600;
+		color: #00ff88;
 	}
 
 	.feature p {
-		margin: 0;
-		opacity: 0.9;
-		font-size: 0.95rem;
+		margin-top: 0.5rem;
+		opacity: 0.85;
 	}
 
 	@keyframes fadeIn {
-		from {
-			opacity: 0;
-			transform: translateY(20px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+		from { opacity: 0; transform: translateY(20px); }
+		to { opacity: 1; transform: translateY(0); }
 	}
 
 	@media (max-width: 768px) {
-		h1 {
+		.project-title {
 			font-size: 2rem;
 		}
-
 		.tagline {
-			font-size: 1.1rem;
-		}
-
-		.features {
-			grid-template-columns: 1fr;
+			font-size: 1rem;
 		}
 	}
 </style>
-
