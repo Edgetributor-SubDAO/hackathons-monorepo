@@ -1,10 +1,30 @@
-# Emergency Fund Release DAO
+# Aspirine - Emergency Fund Release DAO
+
+## Stellar x Polkadot Hackerhouse BLR Submission
 
 A decentralized autonomous organization (DAO) built on Soroban that enables hospitals to request emergency medical funds and allows DAO members to vote on funding proposals.
 
-# Contract Testnet Deolpoyed Link
+### 🏥 Project Overview
+
+Aspirine is a blockchain-based emergency medical funding platform that connects hospitals in need with DAO members who can vote to approve critical funding for patients requiring urgent care.
+
+### 👥 Team
+
+**Project Name:** Aspirine  
+**Team Member:** Deepesh Singh Rathore ([@deepesh-sr](https://github.com/deepesh-sr))
+
+### 🔗 Contract Testnet Deployed Link
 
 https://stellar.expert/explorer/testnet/contract/CBTSF6TETTKFJFBAP4LEARDV2LRON6T2V3ZCM75OKVWUMLVJT43M32Q4
+
+### 🛠️ Technologies Used
+
+- **Blockchain:** Stellar (Soroban Smart Contracts)
+- **Smart Contract Language:** Rust
+- **Frontend Framework:** Astro
+- **Wallet Integration:** Stellar Wallets Kit (Freighter)
+- **SDK:** Soroban SDK v23.2.1
+- **Build Tools:** Cargo, TypeScript
 
 ## Overview
 
@@ -218,6 +238,73 @@ Built with:
 - **Rust Edition 2021**
 - **Stellar XDR v23.0.0**
 
+## 🚀 How to Run/Setup
+
+### Prerequisites
+- Rust and Cargo installed
+- Soroban CLI
+- Node.js and npm (for frontend)
+
+### Smart Contract Setup
+```bash
+cd soroban-hello-world/contracts/hello-world
+make build
+make test
+```
+
+### Frontend Setup
+```bash
+cd aspirineFrontend
+npm install
+npm run dev
+```
+
+### Deployment
+The contract is already deployed on Stellar Testnet. To deploy your own instance:
+```bash
+cd soroban-hello-world/contracts/hello-world
+make deploy
+```
+
+## 📹 Demo/Video Links
+
+*Coming soon*
+
+## 📂 Repository Structure
+
+```
+Aspirine/
+├── README.md                          # This file
+├── aspirineFrontend/                  # Astro frontend application
+│   ├── src/
+│   │   ├── components/               # Wallet connection & DAO components
+│   │   └── pages/                    # Application pages
+│   └── package.json
+└── soroban-hello-world/              # Smart contract
+    └── contracts/hello-world/
+        ├── src/
+        │   ├── lib.rs                # Main contract logic
+        │   └── test.rs               # Comprehensive tests
+        └── Cargo.toml
+```
+
+## 🌟 Key Features Implemented
+
+- ✅ Complete DAO voting system on Soroban
+- ✅ Hospital proposal submission
+- ✅ Member voting with configurable thresholds
+- ✅ Treasury management
+- ✅ Proposal execution and fund distribution
+- ✅ Frontend with Freighter wallet integration
+- ✅ Comprehensive test coverage
+- ✅ Deployed on Stellar Testnet
+
+## 📝 Additional Notes
+
+This project was built during the Stellar x Polkadot Hackerhouse in Bangalore. The goal is to provide a transparent, decentralized solution for emergency medical funding, ensuring that critical healthcare needs can be addressed through community governance.
+
+The smart contract includes robust security features, voting mechanisms, and comprehensive error handling to ensure safe and fair distribution of emergency funds.
+
 ## License
 
-This is a demonstration smart contract for educational purposes.
+This is a demonstration smart contract built for the Stellar x Polkadot Hackerhouse BLR.
