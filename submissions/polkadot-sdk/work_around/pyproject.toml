@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "polkadot-contract-sdk"
+version = "1.0.0"
+description = "SDK for deploying and interacting with smart contracts on Polkadot/Kusama networks"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+keywords = ["polkadot", "kusama", "blockchain", "smart-contracts", "web3", "ethereum"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Blockchain",
+]
+
+dependencies = [
+    "web3>=6.0.0",
+    "py-solc-x>=1.1.1",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+sdk-deploy-contract = "sdk.cli:deploy_command"
+sdk-interact = "sdk.cli:interact_command"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/polkadot-contract-sdk"
+Documentation = "https://github.com/yourusername/polkadot-contract-sdk#readme"
+Repository = "https://github.com/yourusername/polkadot-contract-sdk"
+Issues = "https://github.com/yourusername/polkadot-contract-sdk/issues"
+
+[tool.setuptools]
+packages = ["sdk"]
+
+[tool.setuptools.package-data]
+sdk = ["*.md"]
+

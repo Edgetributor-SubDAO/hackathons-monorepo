@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASM Remix IDE - Python to Blockchain</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>🐍 WASM Remix IDE</h1>
+                <span class="subtitle">Python to WASM + IPFS Upload</span>
+            </div>
+            <div class="header-right">
+                <div class="network-badge" id="networkBadge">
+                    <span class="network-dot"></span>
+                    IPFS
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Panel: Code Editor -->
+            <div class="panel left-panel">
+                <div class="panel-header">
+                    <h2>📝 Python Code Editor</h2>
+                    <div class="panel-actions">
+                        <button class="btn btn-sm" onclick="loadCode()">📥 Load</button>
+                        <button class="btn btn-sm" onclick="saveCode()">💾 Save</button>
+                        <button class="btn btn-sm" onclick="extractFunctions()">🔍 Extract Functions</button>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <textarea id="codeEditor"></textarea>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-primary btn-lg" onclick="uploadToIPFS()">
+                        📤 Upload to IPFS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Panel: Contract Interaction -->
+            <div class="panel right-panel">
+                <!-- Contract Info Tab -->
+                <div class="tab-container">
+                    <div class="tabs">
+                        <button class="tab active" onclick="switchTab('contract', this)">📋 Contract</button>
+                        <button class="tab" onclick="switchTab('execute', this)">⚡ Execute</button>
+                        <button class="tab" onclick="switchTab('logs', this)">📜 Logs</button>
+                    </div>
+
+                    <!-- Contract Tab -->
+                    <div id="contractTab" class="tab-content active">
+                        <div class="section">
+                            <h3>IPFS Deployment Information</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>IPFS Hash:</label>
+                                    <div class="hash" id="ipfsHash">
+                                        <span class="placeholder">Not uploaded</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <label>WASM File:</label>
+                                    <div id="wasmFile">contract.wasm</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Deployment Type:</label>
+                                    <div id="deploymentType">IPFS Only</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="loadContractInfo()">
+                                🔄 Refresh Info
+                            </button>
+                        </div>
+
+                        <div class="section">
+                            <h3>Available Functions</h3>
+                            <div id="functionsList" class="functions-list">
+                                <div class="empty-state">No functions found. Deploy first.</div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="loadFunctions()">
+                                🔄 Refresh Functions
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Execute Tab -->
+                    <div id="executeTab" class="tab-content">
+                        <div class="section">
+                            <h3>Execute Function</h3>
+                            <div class="form-group">
+                                <label>Function Name:</label>
+                                <select id="functionSelect" class="input">
+                                    <option value="">Select a function...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Arguments (comma-separated):</label>
+                                <input type="text" id="functionArgs" class="input" placeholder="e.g., 10, 5">
+                            </div>
+                            <button class="btn btn-primary" onclick="executeFunction()">
+                                ▶️ Execute
+                            </button>
+                            <div id="executeResult" class="result-box"></div>
+                        </div>
+                    </div>
+
+                    <!-- Logs Tab -->
+                    <div id="logsTab" class="tab-content">
+                        <div class="section">
+                            <h3>Activity Logs</h3>
+                            <div class="logs-container">
+                                <div id="logs" class="logs">
+                                    <div class="log-entry info">
+                                        <span class="log-time"></span>
+                                        <span class="log-message">Welcome to WASM Remix IDE! Ready to deploy and execute Python code.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm" onclick="clearLogs()">Clear Logs</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Modal -->
+        <div id="uploadModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>📤 Upload to IPFS</h2>
+                    <button class="modal-close" onclick="closeUploadModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>This will compile your Python code to WASM and upload it to IPFS.</p>
+                    <div class="form-group">
+                        <small>💡 Optional: Set WEB3_STORAGE_TOKEN in .env for IPFS upload</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeUploadModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="confirmUpload()">Upload to IPFS</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>
+

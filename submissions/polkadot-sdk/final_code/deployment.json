@@ -1,0 +1,168 @@
+{
+  "contract_address": "0x01aDf020f02D4CE862E1FbE5beB135bF9E78E222",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "result",
+          "type": "int256"
+        }
+      ],
+      "name": "CalculationPerformed",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "int256",
+          "name": "old_temp",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "new_temp",
+          "type": "int256"
+        }
+      ],
+      "name": "calculate_temperature_change",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "int256",
+          "name": "temperature",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "wind_speed",
+          "type": "int256"
+        }
+      ],
+      "name": "calculate_weather_index",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "calculationCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCalculationCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLastResult",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lastResult",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "int256",
+          "name": "base_speed",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "wind_change",
+          "type": "int256"
+        }
+      ],
+      "name": "process_wind_speed",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "int256",
+          "name": "current_temp",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "new_temp",
+          "type": "int256"
+        }
+      ],
+      "name": "update_temperature",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "network": "Moonbase Alpha",
+  "rpc_url": "https://rpc.api.moonbase.moonbeam.network"
+}
