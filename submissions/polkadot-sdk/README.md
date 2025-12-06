@@ -1,14 +1,15 @@
-# [Your Project Name]
+# Polkadot SDK
 
 > **Note:** This is a template. Copy this file to your submission folder and fill in the details.
 
 ## 📋 Project Overview
 
-**Project Name:** [Your Project Name]
+**Project Name:** Polkadot SDK
 
-**Tagline:** [One-line description of your project]
+**Tagline:** Write your smart contracts in Python or any scripting language and deploy it to Polkadot EVM compatible chains.
 
 **Description:**
+
 [Provide a detailed description of your project. What problem does it solve? What makes it unique?]
 
 ## 👥 Team Information
