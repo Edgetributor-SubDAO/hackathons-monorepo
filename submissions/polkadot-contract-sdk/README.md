@@ -1,10 +1,8 @@
-# Polkadot SDK
-
-> **Note:** This is a template. Copy this file to your submission folder and fill in the details.
+# Ppolkadot-contract-sdk
 
 ## 📋 Project Overview
 
-**Project Name:** Polkadot SDK
+**Project Name:** polkadot-contract-sdk
 
 **Tagline:** Write your smart contracts in Python or any scripting language and deploy it to Polkadot EVM compatible chains.
 
@@ -17,9 +15,7 @@
 **Team Name:** [Your Team Name]
 
 **Team Members:**
-- [Team Member 1 Name](https://github.com/username1) - [Role/Contribution]
-- [Team Member 2 Name](https://github.com/username2) - [Role/Contribution]
-- [Team Member 3 Name](https://github.com/username3) - [Role/Contribution]
+- Omkar Ghongade (https://github.com/omkar-ghongade) - Developer
 
 ## 🛠️ Technologies Used
 
