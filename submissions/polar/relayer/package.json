@@ -1,0 +1,39 @@
+{
+  "name": "polar-bridge-relayer",
+  "version": "1.0.0",
+  "main": "src/routes.js",
+  "scripts": {
+    "start": "node src/routes.js",
+    "relayer": "node src/index.js",
+    "liquidation-bot": "node src/liquidation-bot.js",
+    "dev": "node --watch src/routes.js",
+    "dev:relayer": "node --watch src/index.js",
+    "dev:liquidation": "node --watch src/liquidation-bot.js",
+    "test:balance": "node test/test-check-balance.js",
+    "test:evm-pool": "node test/test-check-evm-pool.js",
+    "test:watch": "node test/test-watch-events.js",
+    "test:lock": "node test/test-lock-xlm.js",
+    "test:unlock": "node test/test-unlock-xlm.js",
+    "test:release": "node test/test-release-pas.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["bridge", "stellar", "paseo", "polkadot"],
+  "author": "",
+  "license": "ISC",
+  "description": "Polar Bridge Relayer - Stellar <-> Paseo Asset Hub",
+  "dependencies": {
+    "@polkadot/api": "^16.5.3",
+    "@stellar/stellar-sdk": "^14.4.1",
+    "@types/node": "^24.10.1",
+    "body-parser": "^2.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "razorpay": "^2.9.6",
+    "stellar-sdk": "^13.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "@supabase/supabase-js": "^2.45.0",
+    "ethers": "^6.13.4"
+  }
+}
