@@ -1,0 +1,23 @@
+{
+  "source": {
+    "hash": "0x",
+    "language": "ink! 4.x",
+    "compiler": "rustc 1.x.x"
+  },
+  "spec": {
+    "name": "ProjectRegistry",
+    "version": "0.1.0"
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": []
+        }
+      }
+    }
+  },
+  "types": [],
+  "messages": [],
+  "events": []
+}
