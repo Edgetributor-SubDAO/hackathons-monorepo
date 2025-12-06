@@ -1,0 +1,52 @@
+use sp_std::str::Utf8Error;
+use thiserror::Error;
+use tokio_stream::wrappers::errors::BroadcastStreamRecvError;
+
+use runtime::Error as RuntimeError;
+use wallet::error::Error as WalletError;
+
+#[derive(Error, Debug)]
+pub enum Error {
+	#[error("Insufficient funds available")]
+	InsufficientFunds,
+	#[error("Mathematical operation caused an overflow")]
+	ArithmeticOverflow,
+	#[error("Mathematical operation caused an underflow")]
+	ArithmeticUnderflow,
+	#[error(transparent)]
+	TryIntoIntError(#[from] std::num::TryFromIntError),
+	#[error("Deadline has expired")]
+	DeadlineExpired,
+	#[error("Faucet url not set")]
+	FaucetUrlNotSet,
+
+	#[error("RuntimeError: {0}")]
+	RuntimeError(#[from] RuntimeError),
+	#[error("BroadcastStreamRecvError: {0}")]
+	BroadcastStreamRecvError(#[from] BroadcastStreamRecvError),
+	#[error("StellarWalletError: {0}")]
+	StellarWalletError(#[from] WalletError),
+
+	#[error("Error fetching remote info from a Stellar Horizon server")]
+	HorizonResponseError,
+	#[error("Lookup Error")]
+	LookupError,
+	#[error("Stellar SDK Error")]
+	StellarSdkError,
+	#[error("Utf8Error: {0}")]
+	Utf8Error(#[from] Utf8Error),
+	#[error("OracleError: {0}")]
+	OracleError(#[from] crate::oracle::Error),
+
+	#[error("StellarRelayError: {0}")]
+	StellarRelayError(stellar_relay_lib::Error),
+
+	#[error("StdIoError: {0}")]
+	StdIoError(#[from] std::io::Error),
+}
+
+impl From<Error> for service::Error<Error> {
+	fn from(err: Error) -> Self {
+		Self::Retry(err)
+	}
+}

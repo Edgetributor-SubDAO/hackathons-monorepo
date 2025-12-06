@@ -1,0 +1,25 @@
+{
+  "connection_info": {
+    "endpoints": [
+      {
+        "address": "85.190.254.217",
+        "port": 11625
+      }
+    ]
+  },
+  "node_info": {
+    "ledger_version": 22,
+    "overlay_version": 36,
+    "overlay_min_version": 33,
+    "version_str": "stellar-core 22.0.0 (721fd0a654d5e82d38c748a91053e530a475193d)",
+    "is_pub_net": true
+  },
+  "stellar_history_archive_urls": [
+    "http://history.stellar.org/prd/core-live/core_live_001",
+    "http://history.stellar.org/prd/core-live/core_live_002",
+    "http://history.stellar.org/prd/core-live/core_live_003",
+    "https://stellar-history-de-fra.satoshipay.io",
+    "https://stellar-history-sg-sin.satoshipay.io",
+    "https://stellar-history-us-iowa.satoshipay.io"
+  ]
+}

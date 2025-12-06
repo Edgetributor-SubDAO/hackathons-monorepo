@@ -1,0 +1,31 @@
+# Build artifacts
+target/
+**/*.rs.bk
+Cargo.lock
+
+# Temporary directories
+bin/
+chains/
+network/
+logs/
+.pids/
+/tmp/zombie-*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+*.log
+
+# Polkadot SDK (if cloned)
+polkadot-sdk/

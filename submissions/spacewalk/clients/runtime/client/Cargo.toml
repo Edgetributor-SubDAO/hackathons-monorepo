@@ -1,0 +1,32 @@
+[package]
+name = "subxt-client"
+version = "1.0.18"
+authors = []
+edition = "2018"
+
+license = "GPL-3.0"
+repository = "https://github.com/paritytech/substrate-subxt"
+documentation = "https://docs.rs/substrate-subxt-client"
+homepage = "https://www.parity.io/"
+description = "Embed a substrate node into your subxt application."
+keywords = ["parity", "substrate", "blockchain"]
+
+[dependencies]
+tokio = { workspace = true, features = ["time", "rt-multi-thread"] }
+futures = { workspace = true, features = ["compat"] }
+futures01 = { package = "futures", version = "0.1.29" }
+
+jsonrpsee = { workspace = true }
+jsonrpsee-types = { workspace = true }
+jsonrpsee-core = { workspace = true, features = ["async-client"] }
+
+log = { workspace = true, default-features = true }
+serde_json = { workspace = true, default-features = true }
+thiserror = { workspace = true }
+
+subxt = { workspace = true, default-features = true, features = [ "substrate-compat"] }
+
+sc-client-db = { workspace = true }
+sp-keyring = { workspace = true }
+sc-network = { workspace = true }
+sc-service = { workspace = true }

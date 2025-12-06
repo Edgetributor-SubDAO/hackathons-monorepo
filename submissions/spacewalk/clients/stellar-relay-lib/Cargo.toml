@@ -1,0 +1,50 @@
+[package]
+name = "stellar-relay-lib"
+version = "1.0.18"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "stellar_relay_lib"
+path = "src/lib.rs"
+
+[dev-dependencies]
+ntest.workspace = true
+serial_test.workspace = true
+console-subscriber.workspace = true
+wallet = { path = "../wallet", features = ["testing-utils"] }
+
+
+[dependencies]
+hex = { workspace = true, default-features = true }
+tracing = { workspace = true, features = ["log"] }
+
+base64 = { workspace = true, default-features = true}
+rand = { workspace = true }
+tweetnacl = { workspace = true}
+
+hmac = { workspace = true}
+sha2 = { workspace = true, default-features = true}
+
+serde = { workspace = true, features = ["alloc"], default-features = true }
+serde_json = { workspace = true }
+serde_with = { workspace = true }
+
+
+substrate-stellar-sdk = { workspace = true, features = ['all-types'], default-features = true}
+
+err-derive = { workspace = true}
+
+tokio = { workspace = true, features = [
+    "macros",           # allows main function to be async
+    "rt-multi-thread",  # for multi-thread runtime
+    "sync",             # to make channels available
+    "time",             # for timeouts and sleep, when reconnecting
+    "tracing"           # for tokio console
+] }
+async-std = { workspace = true, features = ["attributes"] }
+
+[features]
+std = [ "hmac/std", "serde_json/std", "substrate-stellar-sdk/std" ]
+default = [ "std" ]

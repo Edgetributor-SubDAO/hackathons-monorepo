@@ -1,0 +1,28 @@
+[package]
+authors = ["Pendulum Chain <https://github.com/pendulum-chain>"]
+edition = "2021"
+name = "wallet"
+version = "1.0.18"
+
+[features]
+default = []
+testing-utils = []
+
+[dependencies]
+async-trait = { workspace = true }
+futures = { workspace = true }
+cached = { workspace = true, features = ["async"] }
+parity-scale-codec = { workspace = true }
+rand = { workspace = true }
+reqwest = { workspace = true, features = ["json"] }
+serde = { workspace = true, default-features = true }
+serde_json = { workspace = true, features = ["alloc"] }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full", "tracing"] }
+tracing = { workspace = true, features = ["log"] }
+dotenv = { workspace = true }
+primitives = { package = "spacewalk-primitives", path = "../../primitives"}
+
+[dev-dependencies]
+serial_test.workspace = true
+mocktopus.workspace = true

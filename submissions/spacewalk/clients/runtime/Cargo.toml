@@ -1,0 +1,72 @@
+[package]
+authors = ["Pendulum"]
+edition = "2018"
+name = "runtime"
+version = "1.0.18"
+
+[features]
+default = []
+standalone-metadata = []
+parachain-metadata-pendulum = []
+parachain-metadata-amplitude = []
+parachain-metadata-foucoco = []
+
+testing-utils = [
+	"mainnet-runtime/testing-utils",
+	"oracle/testing-utils",
+	"rand",
+	"subxt-client",
+	"tempdir",
+	"testchain",
+	"testchain-runtime/testing-utils",
+]
+
+[dependencies]
+async-trait = { workspace = true }
+backoff = { workspace = true, features = ["tokio"] }
+cfg-if = { workspace = true }
+clap = { workspace = true, features = ["derive", "env"]}
+codec = {  workspace = true, features = ["derive", "full"] }
+futures = { workspace = true }
+log = { workspace = true, default-features = true }
+serde = { workspace = true, features = ["derive"], default-features = true }
+serde_json = { workspace = true, default-features = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+prometheus = { workspace = true, features = ["process"] }
+url = { workspace = true }
+
+# Git Dependencies
+frame-support = { workspace = true }
+sp-arithmetic = { workspace = true }
+sp-keyring = { workspace = true }
+sp-runtime = { workspace = true }
+sp-std = { workspace = true }
+sp-core = { workspace = true }
+sp-version = { workspace = true }
+
+
+subxt = { workspace = true, default-features = true, features = ["substrate-compat"] }
+jsonrpsee = {  workspace = true, features = ["macros", "jsonrpsee-types", "client", "jsonrpsee-ws-client", "jsonrpsee-client-transport"] }
+subxt-client = { path = "./client", optional = true }
+
+# Needed for the `BalanceWrapper` struct
+module-oracle-rpc-runtime-api = { path = "../../pallets/oracle/rpc/runtime-api" }
+primitives = { path = "../../primitives", package = "spacewalk-primitives" }
+
+# Dependencies for the testing utils for integration tests
+oracle = { path = "../../pallets/oracle", optional = true }
+rand = { workspace = true, default-features = true, optional = true }
+tempdir = { workspace = true, optional = true }
+testchain = { package = "spacewalk-standalone", path = "../../testchain/node", optional = true }
+testchain-runtime = { package = "spacewalk-runtime-standalone-testnet", path = "../../testchain/runtime/testnet", optional = true }
+mainnet-runtime = { package = "spacewalk-runtime-standalone-mainnet", path = "../../testchain/runtime/mainnet", optional = true }
+
+# Substrate Stellar Dependencies
+wallet = { path = "../wallet" }
+
+[dev-dependencies]
+env_logger.workspace = true
+tempdir.workspace = true
+runtime = { path = ".", features = ["testing-utils"] }
+testchain-runtime = { package = "spacewalk-runtime-standalone-testnet", path = "../../testchain/runtime/testnet", features = ["testing-utils"] }

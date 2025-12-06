@@ -1,0 +1,80 @@
+[package]
+authors = ["Pendulum Chain <https://github.com/pendulum-chain>"]
+description = "The Vault client intermediates between Stellar and the Spacewalk Parachain."
+edition = "2018"
+name = "vault"
+version = "1.0.18"
+
+[features]
+std = [ "base64/std", "primitives/std", "stellar-relay-lib/std" ]
+
+integration = [ "wallet/testing-utils" ]
+standalone-metadata = [ "runtime/standalone-metadata" ]
+parachain-metadata-pendulum = [ "runtime/parachain-metadata-pendulum" ]
+parachain-metadata-amplitude = [ "runtime/parachain-metadata-amplitude" ]
+parachain-metadata-foucoco = [ "runtime/parachain-metadata-foucoco" ]
+integration-test = [ "integration", "standalone-metadata" ]
+allow-debugger = [ "console-subscriber" ]
+
+
+[dependencies]
+async-trait = { workspace = true}
+base64 = { workspace = true, features = ['alloc'] }
+bincode = { workspace = true }
+clap = { workspace = true, features = ["env"] }
+cfg-if = { workspace = true }
+rand = { workspace = true }
+futures = { workspace = true }
+governor = { workspace = true }
+hex = { workspace = true, default-features = true }
+itertools = { workspace = true }
+lazy_static = { workspace = true }
+nonzero_ext = { workspace = true }
+reqwest = { workspace = true, features = ["json"] }
+signal-hook = { workspace = true }
+signal-hook-tokio = { workspace = true, features = ["futures-v0_3"] }
+sysinfo = { workspace = true }
+thiserror =  { workspace = true }
+
+# tokio related
+tokio = { workspace = true, features = ["full", "tracing"] }
+tokio-metrics = { workspace = true }
+tokio-stream = { workspace = true, features = ["sync"] }
+console-subscriber = { workspace = true, optional = true }
+
+tracing = { workspace = true, features = ["log"] }
+
+jsonrpc-core-client = { workspace = true, features = ["http", "tls"] }
+
+subxt = { workspace = true, default-features = true, features = [ "substrate-compat"] }
+
+# Substrate dependencies
+sp-core = { workspace = true, default-features = true }
+sp-runtime = { workspace = true, default-features = true  }
+sp-std = { workspace = true, default-features = true  }
+parking_lot = { workspace = true }
+flate2 = { workspace = true }
+
+# Workspace dependencies
+runtime = { path = "../runtime" }
+service = { path = "../service" }
+wallet = { path = "../wallet" }
+stellar-relay-lib = { package = "stellar-relay-lib", path = "../stellar-relay-lib", default-features = false }
+primitives = { path = "../../primitives", package = "spacewalk-primitives", default-features = false }
+
+[dev-dependencies]
+mockall.workspace = true
+ntest.workspace = true
+
+env_logger.workspace = true
+serial_test.workspace = true
+tempdir.workspace = true
+
+runtime = { path = "../runtime", features = ["testing-utils", "standalone-metadata"] }
+wallet = { path = "../wallet", features = ["testing-utils"] }
+
+sp-keyring = { workspace = true, default-features = true }
+sp-arithmetic = { workspace = true, default-features = true }
+
+# Substrate dependencies
+frame-support = { workspace = true, default-features = true }
