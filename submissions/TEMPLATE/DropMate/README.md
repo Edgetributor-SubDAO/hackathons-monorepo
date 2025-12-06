@@ -1,8 +1,5 @@
 # DropMate
 
-![DropMate Logo](https://img.shields.io/badge/DropMate-Decentralized%20Ride%20Sharing-brightgreen)
-![License](https://img.shields.io/badge/license-MIT-blue)
-![Status](https://img.shields.io/badge/status-In%20Development-yellow)
 
 ---
 
