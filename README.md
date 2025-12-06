@@ -121,4 +121,4 @@ This repository is for hackathon submissions. Individual projects maintain their
 
 ---
 
-**Happy Hacking! 🎉**)
+**Happy Hacking! 🎉**
