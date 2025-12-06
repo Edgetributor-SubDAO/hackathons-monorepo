@@ -16,7 +16,8 @@ ChainSpeed is a web-based blockchain performance testing tool that enables users
 **Team Name:** ChainSpeed
 
 **Team Members:**
-- [Surya](https://github.com/MachoMaheen) - Full Stack Developer
+- [Maheen](https://github.com/MachoMaheen) - Full Stack Developer
+- [Surya](https://github.com/SuryaS2125) - Full Stack Developer
 
 ## 🛠️ Technologies Used
 
