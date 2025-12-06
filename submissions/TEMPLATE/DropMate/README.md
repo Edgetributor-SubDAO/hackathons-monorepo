@@ -366,19 +366,16 @@ _Polkadot Network:_
 ## 📸 Screenshots
 
 **Login & Wallet Selection:**
-![Auth Page](./screenshots/auth-page.png)
+![Auth Page](./screenshots/AuthPage.png)
 
-**Customer Dashboard:**
-![Customer Dashboard](./screenshots/customer-dashboard.png)
+**Customer Ride Requesting:**
+![Ride Request](./screenshots/RideRequest.png)
 
-**Driver Dashboard:**
-![Driver Dashboard](./screenshots/driver-dashboard.png)
+**Driver Start:**
+![Ride Start](./screenshots/RideStart.png)
 
 **Live Ride Tracking:**
-![Live Map](./screenshots/live-map.png)
-
-**Ride Rating:**
-![Rating](./screenshots/rating.png)
+![Live Map](./screenshots/LiveRide.png)
 
 ---
 
