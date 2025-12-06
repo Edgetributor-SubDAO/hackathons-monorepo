@@ -1,0 +1,22 @@
+{
+  "name": "@paystamp/stellar-client",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@stellar/stellar-sdk": "^12.0.0",
+    "@paystamp/shared-types": "file:../../packages/shared-types"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
+

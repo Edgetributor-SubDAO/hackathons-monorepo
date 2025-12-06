@@ -1,0 +1,7 @@
+# Ignore files for Soroban CLI
+target/
+*.wasm
+Cargo.lock
+.git/
+node_modules/
+

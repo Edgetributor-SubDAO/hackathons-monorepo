@@ -1,0 +1,152 @@
+type Query {
+  """
+  Get access status for a user and service
+  """
+  getAccessStatus(userAddress: String!, serviceId: String!): AccessStatus!
+
+  """
+  Get payment history for a user
+  """
+  getPaymentHistory(
+    userAddress: String!
+    serviceId: String
+    limit: Int
+    offset: Int
+  ): PaymentHistory!
+
+  """
+  Get service information
+  """
+  getServiceInfo(serviceId: String!): ServiceInfo
+
+  """
+  Get user's access stamps
+  """
+  getUserAccessStamps(userAddress: String!): [AccessStamp!]!
+}
+
+type Mutation {
+  """
+  Initiate a payment (returns payment details)
+  """
+  initiatePayment(
+    userAddress: String!
+    serviceId: String!
+    amount: String!
+    currency: String!
+  ): PaymentInitiation!
+
+  """
+  Verify access for a user and service
+  """
+  verifyAccess(userAddress: String!, serviceId: String!): AccessVerification!
+}
+
+type Subscription {
+  """
+  Subscribe to access status changes
+  """
+  accessStatusChanged(
+    userAddress: String!
+    serviceId: String!
+  ): AccessStatusUpdate!
+
+  """
+  Subscribe to payment processing updates
+  """
+  paymentProcessed(paymentHash: String!): PaymentUpdate!
+}
+
+# Types
+
+type AccessStatus {
+  hasAccess: Boolean!
+  expiresAt: Int
+  isExpired: Boolean!
+  nftId: String
+  serviceId: String!
+  userAddress: String!
+}
+
+type PaymentHistory {
+  payments: [Payment!]!
+  total: Int!
+  hasMore: Boolean!
+}
+
+type Payment {
+  id: String!
+  eventHash: String!
+  stellarTxHash: String!
+  userAddress: String!
+  serviceId: String!
+  amount: String!
+  currency: String!
+  timestamp: String!
+  status: PaymentStatus!
+  polkadotTxHash: String
+  createdAt: String!
+}
+
+type ServiceInfo {
+  serviceId: String!
+  name: String
+  description: String
+  minAmount: String!
+  maxAmount: String
+  currency: String!
+  accessDuration: Int! # in seconds
+  isActive: Boolean!
+}
+
+type AccessStamp {
+  id: String!
+  userAddress: String!
+  serviceId: String!
+  nftId: String
+  expiresAt: String!
+  isActive: Boolean!
+  mintedAt: String
+  createdAt: String!
+}
+
+type PaymentInitiation {
+  success: Boolean!
+  paymentHash: String
+  merchantAddress: String!
+  amount: String!
+  currency: String!
+  memo: String
+  error: String
+}
+
+type AccessVerification {
+  isValid: Boolean!
+  hasAccess: Boolean!
+  expiresAt: Int
+  error: String
+}
+
+type AccessStatusUpdate {
+  userAddress: String!
+  serviceId: String!
+  hasAccess: Boolean!
+  expiresAt: Int
+  timestamp: String!
+}
+
+type PaymentUpdate {
+  paymentHash: String!
+  status: PaymentStatus!
+  polkadotTxHash: String
+  timestamp: String!
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  PROCESSED
+  FAILED
+  RETRYING
+}
+

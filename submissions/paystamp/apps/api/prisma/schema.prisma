@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  stellarAddress String  @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  payments      Payment[]
+  accessStamps  AccessStamp[]
+
+  @@map("users")
+}
+
+model Service {
+  id            String   @id @default(uuid())
+  serviceId     String   @unique
+  name          String
+  description   String?
+  minAmount     String
+  maxAmount     String?
+  currency      String   @default("XLM")
+  accessDuration Int     // in seconds
+  isActive      Boolean  @default(true)
+  merchantAddress String
+
+  payments      Payment[]
+  accessStamps  AccessStamp[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("services")
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  userAddress     String
+  serviceId       String
+  amount          String
+  currency        String
+  stellarTxHash   String?       @unique
+  polkadotTxHash  String?
+  memo            String?
+  status          PaymentStatus @default(PENDING)
+
+  user            User          @relation(fields: [userAddress], references: [stellarAddress])
+  service         Service       @relation(fields: [serviceId], references: [serviceId])
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([userAddress])
+  @@index([serviceId])
+  @@index([status])
+  @@index([stellarTxHash])
+  @@map("payments")
+}
+
+model AccessStamp {
+  id            String   @id @default(uuid())
+  userAddress   String
+  serviceId     String
+  nftId         String?
+  expiresAt     DateTime
+  isActive      Boolean  @default(true)
+  mintedAt      DateTime?
+
+  user          User     @relation(fields: [userAddress], references: [stellarAddress])
+  service       Service  @relation(fields: [serviceId], references: [serviceId])
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userAddress])
+  @@index([serviceId])
+  @@index([isActive])
+  @@index([expiresAt])
+  @@map("access_stamps")
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  PROCESSED
+  FAILED
+  RETRYING
+}
+

@@ -1,0 +1,12 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-console": "warn",
+    "no-undef": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}
+

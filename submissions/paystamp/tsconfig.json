@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@paystamp/shared-types": ["./packages/contracts/shared-types/src"],
+      "@paystamp/stellar-client": ["./packages/sdk/stellar-client/src"],
+      "@paystamp/polkadot-client": ["./packages/sdk/polkadot-client/src"],
+      "@paystamp/core": ["./packages/sdk/paystamp-core/src"],
+      "@paystamp/ui": ["./packages/ui/components/src"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "build", ".next", "target"]
+}
+
