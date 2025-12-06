@@ -9,7 +9,7 @@ A relayer listens to Soroban events and syncs them to Polkadot ink! contracts to
 Team Name: CrossTip Builders
 Team Members:
 * Pritam Das – Full-Stack Developer, Contract Deployment, Frontend,Relayer
-* Member  – Architecture + Integrations
+* Megha Sahu  – Architecture + Integrations
 
 🛠️ Technologies Used
 Frontend: React, Vite, TailwindCSSBackend: TypeScript RelayerBlockchain: Stellar, PolkadotSmart Contracts:
