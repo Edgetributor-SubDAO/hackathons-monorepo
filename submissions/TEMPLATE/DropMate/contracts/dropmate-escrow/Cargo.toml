@@ -1,0 +1,32 @@
+[package]
+name = "dropmate_escrow"
+version = "0.1.0"
+edition = "2021"
+authors = ["DropMate Team"]
+
+[dependencies]
+ink = { version = "5.0", default-features = false, features = ["ink_primitives"] }
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale_info = { version = "2", default-features = false, features = ["derive"], optional = true }
+
+[dev-dependencies]
+ink_e2e = "5.0"
+
+[lib]
+path = "lib.rs"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+    "scale/std",
+    "scale_info/std",
+]
+ink-as-dependency = []
+e2e-tests = []
