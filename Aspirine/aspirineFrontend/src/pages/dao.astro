@@ -1,0 +1,864 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ConnectWallet from '../components/connect-wallet.astro';
+---
+
+<Layout>
+	<div class="container">
+		<header>
+			<img src="https://cryptologos.cc/logos/stellar-xlm-logo.svg" alt="Stellar" class="logo">
+			<h1>🏥 Emergency Fund Release DAO</h1>
+			<p class="subtitle">Decentralized medical emergency funding on Stellar</p>
+		</header>
+
+		<div class="wallet-section">
+			<ConnectWallet />
+		</div>
+
+		<!-- Status Display -->
+		<div id="status-banner" class="status-banner hidden"></div>
+
+		<!-- Dashboard Stats -->
+		<div class="stats-grid">
+			<div class="stat-card">
+				<div class="stat-icon">💰</div>
+				<div class="stat-label">Treasury Balance</div>
+				<div id="treasury-balance" class="stat-value">Loading...</div>
+			</div>
+			<div class="stat-card">
+				<div class="stat-icon">📋</div>
+				<div class="stat-label">Total Proposals</div>
+				<div id="proposal-count" class="stat-value">Loading...</div>
+			</div>
+			<div class="stat-card">
+				<div class="stat-icon">⚙️</div>
+				<div class="stat-label">Voting Threshold</div>
+				<div id="voting-threshold" class="stat-value">Loading...</div>
+			</div>
+		</div>
+
+		<!-- Action Cards Grid -->
+		<div class="actions-grid">
+			
+			<!-- 1. Initialize DAO -->
+			<div class="action-card">
+				<div class="card-header">
+					<span class="card-icon">🚀</span>
+					<h3>Initialize DAO</h3>
+				</div>
+				<p class="card-description">Set up the DAO with voting threshold and authorized hospital (admin only, one-time)</p>
+				<form id="initialize-form" class="action-form">
+					<input type="text" name="hospital" placeholder="Authorized hospital address (GABC...)" pattern="G[A-Z0-9]{55}" required>
+					<input type="number" name="threshold" placeholder="Voting threshold (51-100%)" min="51" max="100" value="66" required>
+					<button type="submit" class="btn btn-primary" data-action="initialize">
+						<span class="btn-text">Initialize</span>
+						<span class="btn-loader"></span>
+					</button>
+				</form>
+				<div class="result" id="result-initialize"></div>
+			</div>
+
+			<!-- 2. Add Member -->
+			<div class="action-card">
+				<div class="card-header">
+					<span class="card-icon">👥</span>
+					<h3>Add Member</h3>
+				</div>
+				<p class="card-description">Add voting member to the DAO (admin only)</p>
+				<form id="add-member-form" class="action-form">
+					<input type="text" name="member" placeholder="Member address (GABC...)" pattern="G[A-Z0-9]{55}" required>
+					<button type="submit" class="btn btn-primary" data-action="add-member">
+						<span class="btn-text">Add Member</span>
+						<span class="btn-loader"></span>
+					</button>
+				</form>
+				<div class="result" id="result-add-member"></div>
+			</div>
+
+			<!-- 3. Add Funds -->
+			<div class="action-card">
+				<div class="card-header">
+					<span class="card-icon">💵</span>
+					<h3>Add Funds</h3>
+				</div>
+				<p class="card-description">Contribute XLM to the emergency fund treasury</p>
+				<form id="add-funds-form" class="action-form">
+					<input type="number" name="amount" placeholder="Amount in stroops (1 XLM = 10000000)" step="1000000" required>
+					<button type="submit" class="btn btn-success" data-action="add-funds">
+						<span class="btn-text">Add Funds</span>
+						<span class="btn-loader"></span>
+					</button>
+				</form>
+				<div class="result" id="result-add-funds"></div>
+			</div>
+
+			<!-- 4. Submit Proposal -->
+			<div class="action-card large">
+				<div class="card-header">
+					<span class="card-icon">📝</span>
+					<h3>Submit Proposal</h3>
+				</div>
+				<p class="card-description">Submit emergency funding request (hospitals only)</p>
+				<form id="submit-proposal-form" class="action-form">
+					<input type="text" name="patient_name" placeholder="Patient name" required>
+					<textarea name="patient_details" placeholder="Medical emergency details..." rows="3" required></textarea>
+					<input type="number" name="amount" placeholder="Amount requested (stroops)" step="1000000" required>
+					<button type="submit" class="btn btn-primary" data-action="submit-proposal">
+						<span class="btn-text">Submit Proposal</span>
+						<span class="btn-loader"></span>
+					</button>
+				</form>
+				<div class="result" id="result-submit-proposal"></div>
+			</div>
+
+			<!-- 5. Vote on Proposal -->
+			<div class="action-card">
+				<div class="card-header">
+					<span class="card-icon">🗳️</span>
+					<h3>Vote</h3>
+				</div>
+				<p class="card-description">Vote on active proposals (members only)</p>
+				<form id="vote-form" class="action-form">
+					<input type="number" name="proposal_id" placeholder="Proposal ID" min="1" required>
+					<div class="vote-buttons">
+						<button type="button" class="btn btn-success" data-vote="approve">
+							<span>✅ Approve</span>
+						</button>
+						<button type="button" class="btn btn-danger" data-vote="reject">
+							<span>❌ Reject</span>
+						</button>
+					</div>
+				</form>
+				<div class="result" id="result-vote"></div>
+			</div>
+
+			<!-- 6. Finalize Proposal -->
+			<div class="action-card">
+				<div class="card-header">
+					<span class="card-icon">✔️</span>
+					<h3>Finalize Proposal</h3>
+				</div>
+				<p class="card-description">Calculate final result after voting period</p>
+				<form id="finalize-form" class="action-form">
+					<input type="number" name="proposal_id" placeholder="Proposal ID" min="1" required>
+					<button type="submit" class="btn btn-primary" data-action="finalize">
+						<span class="btn-text">Finalize</span>
+						<span class="btn-loader"></span>
+					</button>
+				</form>
+				<div class="result" id="result-finalize"></div>
+			</div>
+
+			<!-- 7. Execute Proposal -->
+			<div class="action-card">
+				<div class="card-header">
+					<span class="card-icon">⚡</span>
+					<h3>Execute Proposal</h3>
+				</div>
+				<p class="card-description">Release funds for approved proposals</p>
+				<form id="execute-form" class="action-form">
+					<input type="number" name="proposal_id" placeholder="Proposal ID" min="1" required>
+					<button type="submit" class="btn btn-success" data-action="execute">
+						<span class="btn-text">Execute</span>
+						<span class="btn-loader"></span>
+					</button>
+				</form>
+				<div class="result" id="result-execute"></div>
+			</div>
+
+			<!-- 8. View Proposal -->
+			<div class="action-card large">
+				<div class="card-header">
+					<span class="card-icon">🔍</span>
+					<h3>View Proposal</h3>
+				</div>
+				<p class="card-description">Get details of any proposal</p>
+				<form id="view-proposal-form" class="action-form">
+					<input type="number" name="proposal_id" placeholder="Proposal ID" min="1" required>
+					<button type="submit" class="btn btn-info" data-action="view-proposal">
+						<span class="btn-text">View Details</span>
+						<span class="btn-loader"></span>
+					</button>
+				</form>
+				<div class="result" id="result-view-proposal"></div>
+			</div>
+
+		</div>
+	</div>
+</Layout>
+
+<style>
+	:global(body) {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		min-height: 100vh;
+		font-family: system-ui, -apple-system, sans-serif;
+	}
+
+	.container {
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 2rem;
+	}
+
+	header {
+		text-align: center;
+		color: white;
+		margin-bottom: 2rem;
+	}
+
+	.logo {
+		width: 60px;
+		height: 60px;
+		filter: drop-shadow(0 4px 12px rgba(255,255,255,0.3));
+		margin-bottom: 1rem;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: 2.5rem;
+		font-weight: 700;
+		text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+	}
+
+	.subtitle {
+		margin: 0.5rem 0 0;
+		font-size: 1.1rem;
+		opacity: 0.95;
+	}
+
+	.wallet-section {
+		margin: 2rem auto;
+		max-width: 500px;
+	}
+
+	.status-banner {
+		max-width: 800px;
+		margin: 1rem auto;
+		padding: 1rem 1.5rem;
+		border-radius: 12px;
+		text-align: center;
+		font-weight: 500;
+		animation: slideDown 0.3s ease;
+	}
+
+	.status-banner.hidden {
+		display: none;
+	}
+
+	.status-banner.success {
+		background: #d4edda;
+		color: #155724;
+		border: 2px solid #c3e6cb;
+	}
+
+	.status-banner.error {
+		background: #f8d7da;
+		color: #721c24;
+		border: 2px solid #f5c6cb;
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 1.5rem;
+		margin: 2rem 0;
+	}
+
+	.stat-card {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 16px;
+		text-align: center;
+		box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+		transition: transform 0.2s;
+	}
+
+	.stat-card:hover {
+		transform: translateY(-4px);
+	}
+
+	.stat-icon {
+		font-size: 2.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.stat-label {
+		font-size: 0.9rem;
+		color: #666;
+		margin-bottom: 0.5rem;
+	}
+
+	.stat-value {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: #667eea;
+	}
+
+	.actions-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 1.5rem;
+		margin-top: 2rem;
+	}
+
+	.action-card {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 16px;
+		box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	.action-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 30px rgba(0,0,0,0.15);
+	}
+
+	.action-card.large {
+		grid-column: span 2;
+	}
+
+	@media (max-width: 768px) {
+		.action-card.large {
+			grid-column: span 1;
+		}
+	}
+
+	.card-header {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.card-icon {
+		font-size: 1.8rem;
+	}
+
+	.card-header h3 {
+		margin: 0;
+		font-size: 1.3rem;
+		color: #333;
+	}
+
+	.card-description {
+		color: #666;
+		font-size: 0.9rem;
+		margin-bottom: 1rem;
+	}
+
+	.action-form {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.action-form input,
+	.action-form textarea {
+		padding: 0.75rem;
+		border: 2px solid #e0e0e0;
+		border-radius: 8px;
+		font-size: 0.95rem;
+		transition: border-color 0.2s;
+	}
+
+	.action-form input:focus,
+	.action-form textarea:focus {
+		outline: none;
+		border-color: #667eea;
+	}
+
+	.action-form textarea {
+		resize: vertical;
+		font-family: inherit;
+	}
+
+	.btn {
+		padding: 0.75rem 1.5rem;
+		border: none;
+		border-radius: 8px;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.btn:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+	}
+
+	.btn:active:not(:disabled) {
+		transform: translateY(0);
+	}
+
+	.btn:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	.btn-primary {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+	}
+
+	.btn-success {
+		background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+		color: white;
+	}
+
+	.btn-danger {
+		background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+		color: white;
+	}
+
+	.btn-info {
+		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+		color: white;
+	}
+
+	.btn.loading .btn-text {
+		opacity: 0;
+	}
+
+	.btn.loading .btn-loader {
+		display: block;
+	}
+
+	.btn-loader {
+		display: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 20px;
+		height: 20px;
+		border: 3px solid rgba(255,255,255,0.3);
+		border-top-color: white;
+		border-radius: 50%;
+		animation: spin 0.8s linear infinite;
+	}
+
+	@keyframes spin {
+		to { transform: translate(-50%, -50%) rotate(360deg); }
+	}
+
+	@keyframes slideDown {
+		from {
+			opacity: 0;
+			transform: translateY(-20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.vote-buttons {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.75rem;
+	}
+
+	.result {
+		margin-top: 1rem;
+		padding: 0.75rem;
+		border-radius: 8px;
+		font-size: 0.9rem;
+		display: none;
+	}
+
+	.result.show {
+		display: block;
+		animation: slideDown 0.3s ease;
+	}
+
+	.result.success {
+		background: #d4edda;
+		color: #155724;
+		border: 1px solid #c3e6cb;
+	}
+
+	.result.error {
+		background: #f8d7da;
+		color: #721c24;
+		border: 1px solid #f5c6cb;
+	}
+
+	.result.info {
+		background: #d1ecf1;
+		color: #0c5460;
+		border: 1px solid #bee5eb;
+	}
+
+	.proposal-details {
+		background: #f8f9fa;
+		padding: 1rem;
+		border-radius: 8px;
+		margin-top: 0.5rem;
+	}
+
+	.proposal-details h4 {
+		margin-top: 0;
+		color: #667eea;
+	}
+
+	.proposal-details p {
+		margin: 0.5rem 0;
+		font-size: 0.9rem;
+	}
+
+	.proposal-details strong {
+		color: #333;
+	}
+</style>
+
+<script>
+	import { getPublicKey, signTransaction } from "../stellar-wallets-kit";
+	import * as Contract from "../../packages/aspirine/src/index";
+
+	let contract: Contract.Client | null = null;
+
+	// Initialize contract client
+	async function initContract() {
+		const publicKey = await getPublicKey();
+		if (!publicKey) return null;
+
+		contract = new Contract.Client({
+			...Contract.networks.testnet,
+			rpcUrl: 'https://soroban-testnet.stellar.org:443',
+			publicKey: publicKey,
+			signTransaction: signTransaction,
+		});
+
+		return contract;
+	}
+
+	// Helper functions
+	function showStatus(message: string, type: 'success' | 'error') {
+		const banner = document.getElementById('status-banner')!;
+		banner.textContent = message;
+		banner.className = `status-banner ${type}`;
+		setTimeout(() => banner.classList.add('hidden'), 5000);
+	}
+
+	function showResult(elementId: string, message: string, type: 'success' | 'error' | 'info') {
+		const result = document.getElementById(elementId)!;
+		result.innerHTML = message;
+		result.className = `result show ${type}`;
+	}
+
+	function setButtonLoading(button: HTMLButtonElement, loading: boolean) {
+		button.disabled = loading;
+		button.classList.toggle('loading', loading);
+	}
+
+	// Load dashboard stats
+	async function loadStats() {
+		try {
+			const tempContract = new Contract.Client({
+				...Contract.networks.testnet,
+				rpcUrl: 'https://soroban-testnet.stellar.org:443',
+			});
+
+			const [balance, count, threshold] = await Promise.all([
+				tempContract.get_treasury_balance(),
+				tempContract.get_proposal_count(),
+				tempContract.get_voting_threshold(),
+			]);
+
+			document.getElementById('treasury-balance')!.textContent = 
+				`${(Number(balance.result) / 10000000).toFixed(2)} XLM`;
+			document.getElementById('proposal-count')!.textContent = count.result.toString();
+			document.getElementById('voting-threshold')!.textContent = `${threshold.result}%`;
+		} catch (error) {
+			console.error('Error loading stats:', error);
+			document.getElementById('treasury-balance')!.textContent = 'N/A';
+			document.getElementById('proposal-count')!.textContent = 'N/A';
+			document.getElementById('voting-threshold')!.textContent = 'N/A';
+		}
+	}
+
+	// 1. Initialize DAO
+	document.getElementById('initialize-form')!.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const button = form.querySelector('button')!;
+		const hospitalAddress = (form.elements.namedItem('hospital') as HTMLInputElement).value;
+		const threshold = parseInt((form.elements.namedItem('threshold') as HTMLInputElement).value);
+
+		const publicKey = await getPublicKey();
+		if (!publicKey) {
+			showStatus('Please connect your wallet first', 'error');
+			return;
+		}
+
+		setButtonLoading(button, true);
+
+		try {
+			await initContract();
+			const tx = await contract!.initialize({ 
+				admin: publicKey, 
+				voting_threshold: threshold,
+				authorized_hospital: hospitalAddress
+			});
+			const result = await tx.signAndSend();
+			
+			showResult('result-initialize', `✅ DAO initialized! Threshold: ${threshold}%, Hospital: ${hospitalAddress.slice(0,8)}...`, 'success');
+			showStatus('DAO successfully initialized!', 'success');
+			loadStats();
+		} catch (error: any) {
+			showResult('result-initialize', `❌ Error: ${error.message || String(error)}`, 'error');
+			showStatus('Failed to initialize DAO', 'error');
+		} finally {
+			setButtonLoading(button, false);
+		}
+	});
+
+	// 2. Add Member
+	document.getElementById('add-member-form')!.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const button = form.querySelector('button')!;
+		const memberAddress = (form.elements.namedItem('member') as HTMLInputElement).value;
+
+		const publicKey = await getPublicKey();
+		if (!publicKey) {
+			showStatus('Please connect your wallet first', 'error');
+			return;
+		}
+
+		setButtonLoading(button, true);
+
+		try {
+			await initContract();
+			const tx = await contract!.add_member({ admin: publicKey, member: memberAddress });
+			await tx.signAndSend();
+			
+			showResult('result-add-member', `✅ Member added: ${memberAddress.slice(0,8)}...`, 'success');
+			showStatus('Member successfully added!', 'success');
+			form.reset();
+		} catch (error: any) {
+			showResult('result-add-member', `❌ Error: ${error.message || String(error)}`, 'error');
+		} finally {
+			setButtonLoading(button, false);
+		}
+	});
+
+	// 3. Add Funds
+	document.getElementById('add-funds-form')!.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const button = form.querySelector('button')!;
+		const amount = BigInt((form.elements.namedItem('amount') as HTMLInputElement).value);
+
+		const publicKey = await getPublicKey();
+		if (!publicKey) {
+			showStatus('Please connect your wallet first', 'error');
+			return;
+		}
+
+		setButtonLoading(button, true);
+
+		try {
+			await initContract();
+			const tx = await contract!.add_funds({ amount });
+			await tx.signAndSend();
+			
+			const xlm = (Number(amount) / 10000000).toFixed(2);
+			showResult('result-add-funds', `✅ Added ${xlm} XLM to treasury`, 'success');
+			showStatus('Funds added successfully!', 'success');
+			loadStats();
+			form.reset();
+		} catch (error: any) {
+			showResult('result-add-funds', `❌ Error: ${error.message || String(error)}`, 'error');
+		} finally {
+			setButtonLoading(button, false);
+		}
+	});
+
+	// 4. Submit Proposal
+	document.getElementById('submit-proposal-form')!.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const button = form.querySelector('button')!;
+		const patientName = (form.elements.namedItem('patient_name') as HTMLInputElement).value;
+		const patientDetails = (form.elements.namedItem('patient_details') as HTMLTextAreaElement).value;
+		const amount = BigInt((form.elements.namedItem('amount') as HTMLInputElement).value);
+
+		const publicKey = await getPublicKey();
+		if (!publicKey) {
+			showStatus('Please connect your wallet first', 'error');
+			return;
+		}
+
+		setButtonLoading(button, true);
+
+		try {
+			await initContract();
+			const tx = await contract!.submit_proposal({
+				hospital: publicKey,
+				patient_name: patientName,
+				patient_details: patientDetails,
+				amount_requested: amount
+			});
+			await tx.signAndSend();
+			
+			showResult('result-submit-proposal', `✅ Proposal submitted for ${patientName}`, 'success');
+			showStatus('Proposal submitted successfully!', 'success');
+			loadStats();
+			form.reset();
+		} catch (error: any) {
+			showResult('result-submit-proposal', `❌ Error: ${error.message || String(error)}`, 'error');
+		} finally {
+			setButtonLoading(button, false);
+		}
+	});
+
+	// 5. Vote
+	const voteForm = document.getElementById('vote-form')!;
+	document.querySelectorAll('[data-vote]').forEach(button => {
+		button.addEventListener('click', async () => {
+			const approve = button.getAttribute('data-vote') === 'approve';
+			const proposalId = BigInt((voteForm.querySelector('[name="proposal_id"]') as HTMLInputElement).value);
+
+			const publicKey = await getPublicKey();
+			if (!publicKey) {
+				showStatus('Please connect your wallet first', 'error');
+				return;
+			}
+
+			const btn = button as HTMLButtonElement;
+			setButtonLoading(btn, true);
+
+			try {
+				await initContract();
+				const tx = await contract!.vote({ voter: publicKey, proposal_id: proposalId, approve });
+				await tx.signAndSend();
+				
+				const voteType = approve ? 'APPROVED' : 'REJECTED';
+				showResult('result-vote', `✅ Vote cast: ${voteType} proposal #${proposalId}`, 'success');
+				showStatus(`Vote recorded: ${voteType}`, 'success');
+			} catch (error: any) {
+				showResult('result-vote', `❌ Error: ${error.message || String(error)}`, 'error');
+			} finally {
+				setButtonLoading(btn, false);
+			}
+		});
+	});
+
+	// 6. Finalize Proposal
+	document.getElementById('finalize-form')!.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const button = form.querySelector('button')!;
+		const proposalId = BigInt((form.elements.namedItem('proposal_id') as HTMLInputElement).value);
+
+		const publicKey = await getPublicKey();
+		if (!publicKey) {
+			showStatus('Please connect your wallet first', 'error');
+			return;
+		}
+
+		setButtonLoading(button, true);
+
+		try {
+			await initContract();
+			const tx = await contract!.finalize_proposal({ proposal_id: proposalId });
+			await tx.signAndSend();
+			
+			showResult('result-finalize', `✅ Proposal #${proposalId} finalized`, 'success');
+			showStatus('Proposal finalized successfully!', 'success');
+		} catch (error: any) {
+			showResult('result-finalize', `❌ Error: ${error.message || String(error)}`, 'error');
+		} finally {
+			setButtonLoading(button, false);
+		}
+	});
+
+	// 7. Execute Proposal
+	document.getElementById('execute-form')!.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const button = form.querySelector('button')!;
+		const proposalId = BigInt((form.elements.namedItem('proposal_id') as HTMLInputElement).value);
+
+		const publicKey = await getPublicKey();
+		if (!publicKey) {
+			showStatus('Please connect your wallet first', 'error');
+			return;
+		}
+
+		setButtonLoading(button, true);
+
+		try {
+			await initContract();
+			const tx = await contract!.execute_proposal({ proposal_id: proposalId });
+			await tx.signAndSend();
+			
+			showResult('result-execute', `✅ Proposal #${proposalId} executed! Funds released.`, 'success');
+			showStatus('Proposal executed! Funds have been transferred.', 'success');
+			loadStats();
+		} catch (error: any) {
+			showResult('result-execute', `❌ Error: ${error.message || String(error)}`, 'error');
+		} finally {
+			setButtonLoading(button, false);
+		}
+	});
+
+	// 8. View Proposal
+	document.getElementById('view-proposal-form')!.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const button = form.querySelector('button')!;
+		const proposalId = BigInt((form.elements.namedItem('proposal_id') as HTMLInputElement).value);
+
+		setButtonLoading(button, true);
+
+		try {
+			const tempContract = new Contract.Client({
+				...Contract.networks.testnet,
+				rpcUrl: 'https://soroban-testnet.stellar.org:443',
+			});
+
+			const { result: proposal } = await tempContract.get_proposal({ proposal_id: proposalId });
+			
+			const statusMap: Record<string, string> = {
+				'Active': '🟢 Active',
+				'Approved': '✅ Approved',
+				'Rejected': '❌ Rejected',
+				'Executed': '⚡ Executed'
+			};
+
+			const status = proposal.status.tag;
+			const xlm = (Number(proposal.amount_requested) / 10000000).toFixed(2);
+
+			const details = `
+				<div class="proposal-details">
+					<h4>Proposal #${proposal.id}</h4>
+					<p><strong>Patient:</strong> ${proposal.patient_name}</p>
+					<p><strong>Details:</strong> ${proposal.patient_details}</p>
+					<p><strong>Amount:</strong> ${xlm} XLM</p>
+					<p><strong>Status:</strong> ${statusMap[status] || status}</p>
+					<p><strong>Votes For:</strong> ${proposal.votes_for} | <strong>Against:</strong> ${proposal.votes_against}</p>
+					<p><strong>Hospital:</strong> ${proposal.hospital.slice(0, 8)}...${proposal.hospital.slice(-8)}</p>
+				</div>
+			`;
+
+			showResult('result-view-proposal', details, 'info');
+		} catch (error: any) {
+			showResult('result-view-proposal', `❌ Error: ${error.message || 'Proposal not found'}`, 'error');
+		} finally {
+			setButtonLoading(button, false);
+		}
+	});
+
+	// Load stats on page load
+	document.addEventListener('DOMContentLoaded', () => {
+		loadStats();
+		// Refresh stats every 30 seconds
+		setInterval(loadStats, 30000);
+	});
+</script>
