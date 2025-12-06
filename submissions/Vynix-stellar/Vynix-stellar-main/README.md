@@ -2,7 +2,7 @@
 
 ## Overview
 
-Vynix is a Real World Asset (RWA) project built for the Pharos Network Hackathon on HackQuest. It bridges the gap between physical trading cards and blockchain technology, enabling users to securely tokenize, trade, and prove ownership of real, authenticated cards through a seamless web platform.
+Vynix is a Real World Asset (RWA) project built on stellar chain. It bridges the gap between physical trading cards and blockchain technology, enabling users to securely tokenize, trade, and prove ownership of real, authenticated cards through a seamless web platform.
 
 ## Key Features
 
