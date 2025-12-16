@@ -1,0 +1,21 @@
+[package]
+name = "minimal_polkadot"
+version = "0.1.0"
+edition = "2021"
+authors = ["Insidr Team"]
+
+[dependencies]
+ink = { version = "5.0", default-features = false }
+
+[dev-dependencies]
+ink_e2e = "5.0"
+
+[lib]
+path = "lib.rs"
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+]
+ink-as-dependency = []

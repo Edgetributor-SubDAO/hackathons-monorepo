@@ -1,0 +1,4 @@
+build_mode = "debug"
+target_adapters = ["noir"]
+target_platforms = ["android"]
+android = ["aarch64-linux-android"]
