@@ -1,0 +1,35 @@
+{
+  "name": "x402-flash-demo-server",
+  "version": "1.0.0",
+  "description": "Demo API server with x402-flash payments on Stellar",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": [
+    "x402",
+    "stellar",
+    "payments",
+    "micropayments"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@x402-flash/stellar-sdk": "file:../../sdk/typescript",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.14",
+    "@types/express": "^4.17.18",
+    "@types/node": "^20.0.0",
+    "@types/ws": "^8.5.8",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.9.3"
+  }
+}

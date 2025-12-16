@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "x402-payments": {
+      "command": "node",
+      "args": ["/ABSOLUTE/PATH/TO/packages/mcp-server/dist/index.js"],
+      "env": {
+        "STELLAR_RPC_URL": "https://soroban-testnet.stellar.org",
+        "STELLAR_NETWORK": "Test SDF Network ; September 2015",
+        "X402_CONTRACT_ID": "YOUR_CONTRACT_ID_HERE",
+        "WALLET_SECRET_KEY": "YOUR_SECRET_KEY_HERE",
+        "AGENT_REGISTRY_URL": "https://registry.x402.ai"
+      }
+    }
+  }
+}

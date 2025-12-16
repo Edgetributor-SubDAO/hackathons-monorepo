@@ -1,0 +1,29 @@
+{
+  "name": "@x402-ai/client",
+  "version": "1.0.0",
+  "description": "Client SDK for consuming AI agents with x402-flash payments",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "client",
+    "x402"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@x402-ai/core": "file:../core",
+    "@x402-flash/stellar-sdk": "file:../../../sdk/typescript"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "jest": "^29.7.0"
+  }
+}

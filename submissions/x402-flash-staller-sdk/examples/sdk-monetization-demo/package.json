@@ -1,0 +1,28 @@
+{
+  "name": "sdk-monetization-demo",
+  "version": "1.0.0",
+  "description": "Demo of AI Agent Monetization using x402-AI SDK packages",
+  "type": "module",
+  "scripts": {
+    "server": "tsx server.ts",
+    "client": "tsx client.ts",
+    "both": "concurrently \"npm run server\" \"sleep 3 && npm run client\""
+  },
+  "dependencies": {
+    "@x402-ai/core": "file:../../packages/core",
+    "@x402-ai/server": "file:../../packages/server",
+    "@x402-ai/client": "file:../../packages/client",
+    "@x402-flash/stellar-sdk": "file:../../sdk/typescript",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/node": "^20.10.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "concurrently": "^8.2.2"
+  }
+}

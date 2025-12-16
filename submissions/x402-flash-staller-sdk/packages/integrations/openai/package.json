@@ -1,0 +1,27 @@
+{
+  "name": "@x402-ai/integrations-openai",
+  "version": "1.0.0",
+  "description": "OpenAI integration for x402-ai monetization",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "ai",
+    "openai",
+    "x402",
+    "monetization"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@x402-ai/core": "file:../../core",
+    "openai": "^4.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  }
+}

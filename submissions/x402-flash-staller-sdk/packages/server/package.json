@@ -1,0 +1,35 @@
+{
+  "name": "@x402-ai/server",
+  "version": "1.0.0",
+  "description": "Server SDK for AI agent providers with x402-flash integration",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "dev": "tsc --watch",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "server",
+    "x402",
+    "monetization"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@x402-ai/core": "file:../core",
+    "@x402-flash/stellar-sdk": "file:../../../sdk/typescript",
+    "express": "^4.18.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.0.0",
+    "@types/uuid": "^9.0.0",
+    "typescript": "^5.3.0",
+    "jest": "^29.7.0"
+  }
+}
