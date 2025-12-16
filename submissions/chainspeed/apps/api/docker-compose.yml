@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # PostgreSQL with TimescaleDB extension for time-series data
+  postgres:
+    image: timescale/timescaledb:latest-pg15
+    container_name: chainspeed-postgres
+    environment:
+      POSTGRES_USER: chainspeed
+      POSTGRES_PASSWORD: chainspeed_dev_password
+      POSTGRES_DB: chainspeed
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chainspeed -d chainspeed"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching and pub/sub
+  redis:
+    image: redis:7-alpine
+    container_name: chainspeed-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ChainSpeed API Server
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chainspeed-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://chainspeed:chainspeed_dev_password@postgres:5432/chainspeed
+      - REDIS_URL=redis://redis:6379
+      - CORS_ORIGIN=http://localhost:3000
+      - USE_REAL_ADAPTERS=false
+      - POLKADOT_WS=wss://rpc.polkadot.io
+      - STELLAR_HORIZON=https://horizon.stellar.org
+      - SOROBAN_RPC=https://soroban-rpc.mainnet.stellar.gateway.fm
+      - SUBSCAN_API_KEY=${SUBSCAN_API_KEY:-}
+    volumes:
+      - ./src:/app/src:ro
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    driver: local
+  redisdata:
+    driver: local
+
+networks:
+  default:
+    name: chainspeed-network

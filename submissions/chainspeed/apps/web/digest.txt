@@ -1,0 +1,1602 @@
+Directory structure:
+└── web/
+    ├── next-env.d.ts
+    ├── next.config.mjs
+    ├── package.json
+    ├── postcss.config.js
+    ├── tailwind.config.js
+    ├── tsconfig.json
+    ├── .env.local
+    └── src/
+        ├── app/
+        │   ├── globals.css
+        │   ├── layout.tsx
+        │   └── page.tsx
+        ├── components/
+        │   ├── ChainDecoration.tsx
+        │   ├── HoloCard.tsx
+        │   ├── HyperButton.tsx
+        │   └── Scene3D.tsx
+        └── lib/
+            ├── api.ts
+            └── socket.ts
+
+================================================
+FILE: next-env.d.ts
+================================================
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+/// <reference path="./.next/types/routes.d.ts" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+
+
+
+================================================
+FILE: next.config.mjs
+================================================
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    transpilePackages: ['@chainspeed/shared'],
+    experimental: {
+        externalDir: true,
+    },
+};
+
+export default nextConfig;
+
+
+
+================================================
+FILE: package.json
+================================================
+{
+    "name": "@chainspeed/web",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@chainspeed/shared": "*",
+        "@react-three/drei": "^10.7.7",
+        "@react-three/fiber": "^9.4.2",
+        "@types/three": "^0.181.0",
+        "clsx": "^2.1.1",
+        "framer-motion": "^11.0.3",
+        "gsap": "^3.13.0",
+        "next": "^15.0.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "socket.io-client": "^4.7.2",
+        "tailwind-merge": "^3.4.0",
+        "three": "^0.181.2"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.5",
+        "@types/react": "^18.2.45",
+        "@types/react-dom": "^18.2.18",
+        "autoprefixer": "^10.4.16",
+        "postcss": "^8.4.32",
+        "tailwindcss": "^3.4.0",
+        "typescript": "^5.3.3"
+    }
+}
+
+
+
+================================================
+FILE: postcss.config.js
+================================================
+module.exports = {
+    plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+    },
+};
+
+
+
+================================================
+FILE: tailwind.config.js
+================================================
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: [
+        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    ],
+    theme: {
+        extend: {
+            colors: {
+                // ChainSpeed brand colors
+                primary: {
+                    50: '#f0f9ff',
+                    100: '#e0f2fe',
+                    200: '#bae6fd',
+                    300: '#7dd3fc',
+                    400: '#38bdf8',
+                    500: '#0ea5e9',
+                    600: '#0284c7',
+                    700: '#0369a1',
+                    800: '#075985',
+                    900: '#0c4a6e',
+                },
+                // Chain-specific colors
+                polkadot: '#E6007A',
+                stellar: '#000000',
+                // Dark theme
+                dark: {
+                    50: '#f7f7f8',
+                    100: '#ececf1',
+                    200: '#d9d9e3',
+                    300: '#c5c5d2',
+                    400: '#acacbe',
+                    500: '#8e8ea0',
+                    600: '#565869',
+                    700: '#40414f',
+                    800: '#343541',
+                    900: '#202123',
+                    950: '#0d0d0f',
+                },
+            },
+            animation: {
+                'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'spin-slow': 'spin 3s linear infinite',
+                'bounce-slow': 'bounce 2s infinite',
+                'glow': 'glow 2s ease-in-out infinite alternate',
+            },
+            keyframes: {
+                glow: {
+                    '0%': { boxShadow: '0 0 20px rgba(14, 165, 233, 0.3)' },
+                    '100%': { boxShadow: '0 0 40px rgba(14, 165, 233, 0.6)' },
+                },
+            },
+            backgroundImage: {
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+            },
+        },
+    },
+    plugins: [],
+};
+
+
+
+================================================
+FILE: tsconfig.json
+================================================
+{
+    "compilerOptions": {
+        "target": "ES2017",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "incremental": true,
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        }
+    },
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
+
+
+================================================
+FILE: .env.local
+================================================
+# Next.js Environment Variables
+NEXT_PUBLIC_API_URL=http://localhost:3001
+
+
+
+================================================
+FILE: src/app/globals.css
+================================================
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0d0d0f;
+  --foreground: #f7f7f8;
+  --primary: #0ea5e9;
+  --primary-glow: rgba(14, 165, 233, 0.4);
+  --polkadot: #E6007A;
+  --stellar: #7C3AED;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #40414f;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #565869;
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated background gradient */
+.animated-bg {
+  background: linear-gradient(-45deg, #0d0d0f, #1a1a2e, #16213e, #0d0d0f);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* GO button glow */
+.go-button-glow {
+  box-shadow: 
+    0 0 20px var(--primary-glow),
+    0 0 40px var(--primary-glow),
+    0 0 60px var(--primary-glow);
+}
+
+.go-button-glow:hover {
+  box-shadow: 
+    0 0 30px var(--primary-glow),
+    0 0 60px var(--primary-glow),
+    0 0 90px var(--primary-glow);
+}
+
+/* Progress bar animation */
+.progress-bar-animated {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Chain cards */
+.chain-card {
+  transition: all 0.3s ease;
+}
+
+.chain-card:hover {
+  transform: translateY(-4px);
+}
+
+.chain-card.winner {
+  border-color: var(--primary);
+  box-shadow: 0 0 30px var(--primary-glow);
+}
+
+/* Score bar */
+.score-bar {
+  transition: width 0.5s ease-out;
+}
+
+/* Pulse animation for testing state */
+@keyframes testing-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.testing-pulse {
+  animation: testing-pulse 1.5s ease-in-out infinite;
+}
+
+/* Winner celebration */
+@keyframes celebrate {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.05); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.02); }
+}
+
+.celebrate {
+  animation: celebrate 0.6s ease-out;
+}
+
+/* Metric value counter animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.count-up {
+  animation: countUp 0.3s ease-out forwards;
+}
+
+
+
+================================================
+FILE: src/app/layout.tsx
+================================================
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+    title: 'ChainSpeed - Ookla for Web3',
+    description: 'Test and compare blockchain performance in real-time. The Speedtest for crypto.',
+    keywords: ['blockchain', 'performance', 'speed test', 'crypto', 'web3', 'polkadot', 'stellar'],
+    openGraph: {
+        title: 'ChainSpeed - Ookla for Web3',
+        description: 'Test and compare blockchain performance in real-time.',
+        type: 'website',
+    },
+};
+
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <html lang="en">
+            <body className={inter.className}>
+                <div className="min-h-screen animated-bg">
+                    {children}
+                </div>
+            </body>
+        </html>
+    );
+}
+
+
+
+================================================
+FILE: src/app/page.tsx
+================================================
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { clsx } from 'clsx';
+import gsap from 'gsap';
+import {
+    TestMode,
+    ChainSpeedResult,
+    TestProgressEvent,
+    TestResultEvent,
+    TestCompleteEvent,
+    SUPPORTED_CHAINS,
+} from '@chainspeed/shared';
+import { startTest } from '@/lib/api';
+import {
+    getSocket,
+    getSocketId,
+    onProgress,
+    onResult,
+    onComplete,
+    onError,
+} from '@/lib/socket';
+
+// 3D Components
+import Scene3D from '@/components/Scene3D';
+import HyperButton from '@/components/HyperButton';
+import HoloCard from '@/components/HoloCard';
+import ChainDecoration from '@/components/ChainDecoration';
+
+type Phase = 'idle' | 'testing' | 'complete';
+
+interface ChainProgress {
+    progress: number;
+    phase: string;
+    message: string;
+}
+
+export default function Home() {
+    const [mode, setMode] = useState<TestMode>('network-benchmark');
+    const [phase, setPhase] = useState<Phase>('idle');
+    const [testId, setTestId] = useState<string | null>(null);
+    const [progress, setProgress] = useState<Record<string, ChainProgress>>({});
+    const [results, setResults] = useState<ChainSpeedResult[]>([]);
+    const [winner, setWinner] = useState<string | null>(null);
+    const [userRpc, setUserRpc] = useState('');
+    const [selectedChain, setSelectedChain] = useState('polkadot');
+    const [error, setError] = useState<string | null>(null);
+
+    // Animation state
+    const [warpSpeed, setWarpSpeed] = useState(0); // 0 to 1
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // Use ref to track testId for event handlers (avoids stale closure issues)
+    const testIdRef = useRef<string | null>(null);
+
+    // Keep ref in sync with state
+    useEffect(() => {
+        testIdRef.current = testId;
+    }, [testId]);
+
+    // Initialize socket connection - runs once on mount
+    useEffect(() => {
+        const socket = getSocket();
+
+        const unsubProgress = onProgress((event: TestProgressEvent) => {
+            // Use ref to get current testId value
+            if (event.testId === testIdRef.current) {
+                setProgress(prev => ({
+                    ...prev,
+                    [event.chainId]: {
+                        progress: event.progress,
+                        phase: event.phase,
+                        message: event.message || '',
+                    },
+                }));
+            }
+        });
+
+        const unsubResult = onResult((event: TestResultEvent) => {
+            // Use ref to get current testId value
+            if (event.testId === testIdRef.current) {
+                console.log('[UI] Received result for chain:', event.payload.chainId);
+                setResults(prev => [...prev, event.payload]);
+            }
+        });
+
+        const unsubComplete = onComplete((event: TestCompleteEvent) => {
+            // Use ref to get current testId value
+            if (event.testId === testIdRef.current) {
+                console.log('[UI] Test complete, winner:', event.winner);
+                setWinner(event.winner);
+                setPhase('complete');
+
+                // Slow down warp effect
+                gsap.to({ val: 1 }, {
+                    val: 0,
+                    duration: 2,
+                    ease: "power2.out",
+                    onUpdate: function () { setWarpSpeed(this.targets()[0].val); }
+                });
+            }
+        });
+
+        const unsubError = onError((event) => {
+            // Use ref to get current testId value
+            if (event.testId === testIdRef.current) {
+                setError(event.error);
+                setPhase('idle');
+                setWarpSpeed(0);
+            }
+        });
+
+        return () => {
+            unsubProgress();
+            unsubResult();
+            unsubComplete();
+            unsubError();
+        };
+    }, []); // Empty dependency - only run once on mount
+
+    const handleStartTest = async () => {
+        try {
+            // Animation: Engage Warp Drive
+            gsap.to({ val: 0 }, {
+                val: 1,
+                duration: 3,
+                ease: "power2.in",
+                onUpdate: function () { setWarpSpeed(this.targets()[0].val); }
+            });
+
+            setPhase('testing');
+            setResults([]);
+            setWinner(null);
+            setError(null);
+            setProgress({});
+
+            const chains = mode === 'node-diagnostic'
+                ? [selectedChain]
+                : ['polkadot', 'stellar'];
+
+            const response = await startTest({
+                mode,
+                chains,
+                socketId: getSocketId(),
+                userRpc: mode === 'node-diagnostic' ? userRpc : undefined,
+                selectedChain: mode === 'node-diagnostic' ? selectedChain : undefined,
+            });
+
+            // Set ref immediately so event handlers can match events right away
+            testIdRef.current = response.testId;
+            setTestId(response.testId);
+            console.log('[UI] Test started with ID:', response.testId);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to start test');
+            setPhase('idle');
+            setWarpSpeed(0);
+        }
+    };
+
+    const handleReset = () => {
+        setPhase('idle');
+        testIdRef.current = null;
+        setTestId(null);
+        setResults([]);
+        setWinner(null);
+        setProgress({});
+        setError(null);
+        setWarpSpeed(0);
+    };
+
+    return (
+        <main ref={containerRef} className="relative w-full h-screen overflow-hidden bg-black text-white selection:bg-primary-500/30">
+
+            {/* 3D Background Layer */}
+            <div className="absolute inset-0 z-0">
+                <Scene3D speed={warpSpeed} phase={phase} />
+            </div>
+
+            {/* UI Overlay Layer */}
+            <div className={clsx(
+                "relative z-10 w-full h-full flex flex-col items-center p-4 overflow-y-auto",
+                phase === 'complete' ? 'justify-start' : 'justify-center'
+            )}>
+
+                {/* Header - Animates to top-small in complete phase */}
+                <motion.div
+                    initial={{ opacity: 0, y: -50 }}
+                    animate={{
+                        opacity: phase === 'testing' ? 0 : 1,
+                        y: 0,
+                        scale: phase === 'complete' ? 0.4 : 1,
+                        transformOrigin: 'top center'
+                    }}
+                    transition={{ duration: 0.5 }}
+                    className={clsx(
+                        "absolute z-20 pointer-events-auto text-center transition-all duration-500",
+                        phase === 'complete' ? "top-0" : "top-8 md:top-16"
+                    )}
+                >
+                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-1 relative inline-block">
+                        <span className="absolute inset-0 blur-lg bg-gradient-to-r from-cyan-500 via-white to-fuchsia-500 opacity-50"></span>
+                        <span className="relative bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-white to-fuchsia-400 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                            CHAINSPEED
+                        </span>
+                    </h1>
+                    <div className="flex items-center justify-center gap-2 text-cyan-400/90 text-xs md:text-sm tracking-[0.3em] uppercase font-mono">
+                        <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse shadow-[0_0_10px_#06b6d4]"></span>
+                        Blockchain Network Analytics
+                        <span className="w-2 h-2 rounded-full bg-fuchsia-500 animate-pulse shadow-[0_0_10px_#d946ef]"></span>
+                    </div>
+                </motion.div>
+
+                {/* IDLE PHASE: Mode Switcher & HyperButton */}
+                <AnimatePresence mode="wait">
+                    {phase === 'idle' && (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+                            transition={{ duration: 0.5 }}
+                            className="flex flex-col items-center gap-10 pointer-events-auto mt-48 w-full"
+                        >
+                            {/* Mode Switcher */}
+                            <div className="flex p-1 bg-white/5 backdrop-blur-md rounded-full border border-white/10">
+                                <button
+                                    onClick={() => setMode('network-benchmark')}
+                                    className={`px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 ${mode === 'network-benchmark'
+                                        ? 'bg-primary-500 text-black shadow-[0_0_20px_rgba(14,165,233,0.5)]'
+                                        : 'text-gray-400 hover:text-white'
+                                        }`}
+                                >
+                                    BENCHMARK
+                                </button>
+                                <button
+                                    onClick={() => setMode('node-diagnostic')}
+                                    className={`px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 ${mode === 'node-diagnostic'
+                                        ? 'bg-primary-500 text-black shadow-[0_0_20px_rgba(14,165,233,0.5)]'
+                                        : 'text-gray-400 hover:text-white'
+                                        }`}
+                                >
+                                    DIAGNOSTIC
+                                </button>
+                            </div>
+
+                            {/* Node Diagnostic Inputs */}
+                            <AnimatePresence mode="wait">
+                                {mode === 'node-diagnostic' && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="w-full max-w-lg space-y-5 px-4"
+                                    >
+                                        {/* Chain Selector */}
+                                        <div>
+                                            <select
+                                                value={selectedChain}
+                                                onChange={(e) => setSelectedChain(e.target.value)}
+                                                className="w-full bg-black/50 border-2 border-primary-500/30 rounded-lg px-4 py-3.5 text-white text-base focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 backdrop-blur-md transition-all duration-200 hover:border-primary-500/50 cursor-pointer"
+                                            >
+                                                {SUPPORTED_CHAINS.map(chain => (
+                                                    <option key={chain.id} value={chain.id} className="bg-gray-900">{chain.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        {/* RPC Input */}
+                                        <div>
+                                            <input
+                                                type="text"
+                                                value={userRpc}
+                                                onChange={(e) => setUserRpc(e.target.value)}
+                                                placeholder="wss://your-node-endpoint..."
+                                                className="w-full bg-black/50 border-2 border-primary-500/30 rounded-lg px-4 py-3.5 text-white text-base placeholder-gray-500 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 backdrop-blur-md transition-all duration-200 hover:border-primary-500/50"
+                                            />
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            {/* The HyperButton */}
+                            <HyperButton
+                                onClick={handleStartTest}
+                                disabled={mode === 'node-diagnostic' && !userRpc}
+                            />
+
+                            <p className="text-gray-500 text-xs tracking-widest uppercase animate-pulse">
+                                {mode === 'node-diagnostic' && !userRpc ? 'Enter RPC to Initialize' : 'Click Sphere to Initialize'}
+                            </p>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* TESTING PHASE: HUD Overlay */}
+                <AnimatePresence>
+                    {phase === 'testing' && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                        >
+                            {/* Central HUD Ring */}
+                            <div className="absolute w-[500px] h-[500px] border border-primary-500/20 rounded-full animate-[spin_10s_linear_infinite]" />
+                            <div className="absolute w-[450px] h-[450px] border border-primary-500/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl px-8">
+                                {['polkadot', 'stellar'].map((chainId, i) => {
+                                    if (mode === 'node-diagnostic' && chainId !== selectedChain) return null;
+                                    const chain = SUPPORTED_CHAINS.find(c => c.id === chainId);
+                                    const chainProgress = progress[chainId] || { progress: 0, phase: 'connecting', message: 'Initializing...' };
+
+                                    return (
+                                        <div key={chainId} className={`flex flex-col ${i === 1 ? 'md:items-end md:text-right' : ''}`}>
+                                            <h2 className="text-4xl font-black text-white mb-2 uppercase tracking-tighter">
+                                                {chain?.name}
+                                            </h2>
+                                            <div className="text-primary-400 font-mono text-sm mb-4 h-6">
+                                                {'>'} {chainProgress.message}
+                                            </div>
+
+                                            {/* Cyber Progress Bar */}
+                                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                                                <motion.div
+                                                    className="h-full bg-primary-500 shadow-[0_0_10px_#0ea5e9]"
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: `${chainProgress.progress}%` }}
+                                                />
+                                            </div>
+                                            <div className="mt-2 font-mono text-xs text-gray-500">
+                                                SYSTEM_INTEGRITY: {Math.round(chainProgress.progress)}%
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* COMPLETE PHASE: Results Grid */}
+                <AnimatePresence>
+                    {phase === 'complete' && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="w-full max-w-6xl z-30 pointer-events-auto py-0 mt-6 pt-12"
+                        >
+                            {/* Winner Announcement */}
+                            {winner && results.length > 1 && (
+                                <motion.div
+                                    initial={{ scale: 2, opacity: 0, filter: "blur(20px)" }}
+                                    animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
+                                    transition={{ type: "spring", bounce: 0.5 }}
+                                    className="text-center mb-8"
+                                >
+                                    <h2 className="text-5xl md:text-8xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] mb-3">
+                                        {SUPPORTED_CHAINS.find(c => c.id === winner)?.name.toUpperCase()}
+                                    </h2>
+                                    <div className="inline-block px-6 py-2 bg-primary-500 text-black font-bold text-lg tracking-widest uppercase transform -skew-x-12 shadow-[0_0_20px_#0ea5e9]">
+                                        Dominant Network
+                                    </div>
+                                </motion.div>
+                            )}
+
+                            {/* Cards Grid */}
+                            <div className="grid md:grid-cols-2 gap-8 mb-8 px-4">
+                                {results.map((result, index) => {
+                                    const chain = SUPPORTED_CHAINS.find(c => c.id === result.chainId);
+                                    const isLeft = index === 0;
+
+                                    return (
+                                        <div key={result.chainId} className="relative">
+                                            {/* 3D Chain Decoration Behind Card */}
+                                            <ChainDecoration
+                                                color={chain?.color || '#0ea5e9'}
+                                                side={isLeft ? 'left' : 'right'}
+                                            />
+
+                                            {/* HoloCard */}
+                                            <HoloCard
+                                                result={result}
+                                                isWinner={result.chainId === winner}
+                                                index={index}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Footer Actions */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 1 }}
+                                className="flex justify-center gap-6 pb-12"
+                            >
+                                <button
+                                    onClick={handleReset}
+                                    className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                                >
+                                    REBOOT SYSTEM
+                                </button>
+                                <button
+                                    onClick={() => navigator.clipboard.writeText(window.location.href)}
+                                    className="px-8 py-3 border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-colors backdrop-blur-md"
+                                >
+                                    SHARE DATA
+                                </button>
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+            </div>
+        </main>
+    );
+}
+
+
+
+================================================
+FILE: src/components/ChainDecoration.tsx
+================================================
+'use client';
+
+import { Canvas } from '@react-three/fiber';
+import { PerspectiveCamera } from '@react-three/drei';
+import * as THREE from 'three';
+
+// Chain Link component (reused from Scene3D)
+function ChainLink({ position, rotation, color }: { position: [number, number, number], rotation: [number, number, number], color: string }) {
+    return (
+        <group position={position} rotation={rotation}>
+            <mesh>
+                <torusGeometry args={[0.5, 0.15, 16, 32]} />
+                <meshStandardMaterial
+                    color="#222"
+                    roughness={0.2}
+                    metalness={0.9}
+                />
+            </mesh>
+            <mesh scale={[1, 1, 1]}>
+                <torusGeometry args={[0.5, 0.05, 16, 32]} />
+                <meshBasicMaterial color={color} toneMapped={false} />
+            </mesh>
+        </group>
+    );
+}
+
+// Decorative chain for card background
+function CardChainDecor({ color, side }: { color: string, side: 'left' | 'right' }) {
+    const count = 6;
+    const isLeft = side === 'left';
+
+    return (
+        <group rotation={[0, 0, isLeft ? -Math.PI / 6 : Math.PI / 6]} position={[0, 0, 0]}>
+            {Array.from({ length: count }).map((_, i) => {
+                const isHorizontal = i % 2 === 0;
+                const xOffset = i * 0.75 * (isLeft ? -1 : 1);
+
+                return (
+                    <ChainLink
+                        key={i}
+                        position={[xOffset, i * 0.5, 0]}
+                        rotation={[isHorizontal ? Math.PI / 2 : 0, 0, 0]}
+                        color={color}
+                    />
+                );
+            })}
+        </group>
+    );
+}
+
+export default function ChainDecoration({ color, side }: { color: string, side: 'left' | 'right' }) {
+    return (
+        <div className={`absolute inset-0 pointer-events-none opacity-30 ${side === 'left' ? '-left-12 -top-12' : '-right-12 -top-12'}`}>
+            <div className="w-full h-full">
+                <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping }}>
+                    <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={50} />
+                    <ambientLight intensity={0.5} />
+                    <pointLight position={[5, 5, 5]} intensity={1} color={color} />
+                    <CardChainDecor color={color} side={side} />
+                </Canvas>
+            </div>
+        </div>
+    );
+}
+
+
+
+================================================
+FILE: src/components/HoloCard.tsx
+================================================
+'use client';
+
+import { motion } from 'framer-motion';
+import { clsx } from 'clsx';
+import { ChainSpeedResult, SUPPORTED_CHAINS } from '@chainspeed/shared';
+
+interface HoloCardProps {
+    result: ChainSpeedResult;
+    isWinner: boolean;
+    index: number;
+}
+
+export default function HoloCard({ result, isWinner, index }: HoloCardProps) {
+    const chain = SUPPORTED_CHAINS.find(c => c.id === result.chainId);
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 50, rotateX: -10 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ delay: index * 0.2, duration: 0.8, type: "spring" }}
+            className={clsx(
+                "relative overflow-hidden rounded-2xl p-[1px] group perspective-1000 w-full max-w-md mx-auto",
+                isWinner ? "z-10 scale-105 shadow-2xl shadow-primary-500/20" : "z-0 opacity-90 hover:opacity-100"
+            )}
+        >
+            {/* Animated Border Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-50 animate-spin-slow group-hover:opacity-100 transition-opacity duration-500" />
+
+            {/* Glass Content */}
+            <div className="relative h-full bg-black/80 backdrop-blur-xl rounded-2xl p-6 border border-white/10 group-hover:border-primary-500/30 transition-colors flex flex-col">
+
+                {/* Header */}
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                        <div
+                            className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                            style={{ backgroundColor: chain?.color }}
+                        >
+                            {chain?.name[0]}
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-2xl tracking-tight text-white">{chain?.name}</h3>
+                            <p className="text-xs text-primary-400 uppercase tracking-widest">
+                                {result.meta.source === 'user' ? 'Node Diagnostic' : 'Network Benchmark'}
+                            </p>
+                        </div>
+                    </div>
+                    {isWinner && (
+                        <div className="px-3 py-1 rounded-full bg-primary-500/20 border border-primary-500/50 text-primary-300 text-xs font-bold uppercase tracking-wider animate-pulse shadow-[0_0_10px_rgba(14,165,233,0.3)]">
+                            Winner
+                        </div>
+                    )}
+                </div>
+
+                {/* Big Score */}
+                <div className="flex items-end gap-2 mb-8 pb-6 border-b border-white/10">
+                    <span className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 tracking-tighter">
+                        {result.scores.overall}
+                    </span>
+                    <div className="mb-4">
+                        <span className="text-sm text-gray-400 font-mono block">CHAINSPEED SCORE</span>
+                        <span className="text-xs text-primary-500 font-mono">/ 100</span>
+                    </div>
+                </div>
+
+                {/* Generic Metrics Grid */}
+                <div className="mb-6">
+                    <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Core Metrics</h4>
+                    <div className="grid grid-cols-2 gap-3">
+                        <MetricItem label="Latency P50" value={result.generic.rpcLatencyP50.toFixed(0)} unit="ms" score={result.scores.latency} />
+                        <MetricItem label="Latency P95" value={result.generic.rpcLatencyP95.toFixed(0)} unit="ms" score={result.scores.latency * 0.9} />
+                        <MetricItem label="Throughput" value={result.generic.txThroughput.toFixed(0)} unit="TPS" score={result.scores.throughput} />
+                        <MetricItem label="Finality" value={result.generic.finalityTime.toFixed(1)} unit="s" score={result.scores.finality} />
+                        <MetricItem label="Block Time" value={result.generic.blockTime.toFixed(1)} unit="s" score={80} />
+                        <MetricItem label="Reliability" value={(100 - result.generic.errorRate * 100).toFixed(1)} unit="%" score={result.scores.reliability} />
+                    </div>
+                </div>
+
+                {/* Chain Specific Data - Fixed Alignment with Grid */}
+                <div className="mt-auto pt-4 border-t border-white/10 bg-white/5 -mx-6 -mb-6 p-6">
+                    <h4 className="text-xs font-bold text-primary-400 uppercase tracking-widest mb-3">
+                        {result.chainFamily === 'substrate' ? 'Polkadot Network Data' : 'Stellar Network Data'}
+                    </h4>
+
+                    <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                        {result.chainFamily === 'substrate' ? (
+                            <>
+                                <DetailRow label="XCM Success" value={`${((result.specific as any).xcmSuccessRate * 100).toFixed(1)}%`} />
+                                <DetailRow label="XCM Time" value={`${((result.specific as any).xcmExecutionTime / 1000).toFixed(2)}s`} />
+                                <DetailRow label="GRANDPA Lag" value={`${(result.specific as any).grandpaFinalityLag} blocks`} />
+                                <DetailRow label="Validators" value={(result.specific as any).activeValidators} />
+                                <DetailRow label="Parachains" value={(result.specific as any).parachainCount} />
+                                <DetailRow label="Slashing (24h)" value={(result.specific as any).slashingEvents24h} />
+                            </>
+                        ) : (
+                            <>
+                                <DetailRow label="Ledger Close" value={`${(result.specific as any).ledgerCloseTime.toFixed(2)}s`} />
+                                <DetailRow label="Close Variance" value={`Â±${(result.specific as any).ledgerCloseVariance.toFixed(3)}s`} />
+                                <DetailRow label="Soroban Ops" value={(result.specific as any).sorobanInvocations} />
+                                <DetailRow label="Soroban Success" value={`${((result.specific as any).sorobanSuccessRate * 100).toFixed(1)}%`} />
+                                <DetailRow label="Path Success" value={`${((result.specific as any).pathPaymentSuccess * 100).toFixed(1)}%`} />
+                                <DetailRow label="Avg Hops" value={(result.specific as any).pathPaymentAvgHops.toFixed(1)} />
+                            </>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
+function MetricItem({ label, value, unit, score }: { label: string, value: string, unit: string, score: number }) {
+    const colorClass = score > 80 ? 'bg-green-500' : score > 50 ? 'bg-yellow-500' : 'bg-red-500';
+
+    return (
+        <div className="bg-black/40 rounded-lg p-3 border border-white/5 hover:border-primary-500/30 transition-colors group/item">
+            <div className="flex justify-between items-start mb-1">
+                <span className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">{label}</span>
+                <div className="h-1 w-8 bg-gray-800 rounded-full overflow-hidden">
+                    <div
+                        className={`h-full ${colorClass} shadow-[0_0_5px_currentColor]`}
+                        style={{ width: `${score}%` }}
+                    />
+                </div>
+            </div>
+            <div className="font-mono text-lg text-white group-hover/item:text-primary-400 transition-colors">
+                {value}<span className="text-xs text-gray-500 ml-1">{unit}</span>
+            </div>
+        </div>
+    );
+}
+
+function DetailRow({ label, value }: { label: string, value: string | number }) {
+    return (
+        <div className="grid grid-cols-[1fr_auto] items-center border-b border-white/5 pb-1 last:border-0">
+            <span className="text-xs text-gray-400 truncate pr-2">{label}</span>
+            <span className="text-sm font-mono text-white font-medium text-right">{value}</span>
+        </div>
+    );
+}
+
+
+
+================================================
+FILE: src/components/HyperButton.tsx
+================================================
+'use client';
+
+import { useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Text, MeshDistortMaterial, Float } from '@react-three/drei';
+import * as THREE from 'three';
+
+interface HyperButtonProps {
+    onClick: () => void;
+    disabled?: boolean;
+}
+
+function ButtonMesh({ hovered }: { hovered: boolean }) {
+    const meshRef = useRef<THREE.Mesh>(null);
+
+    useFrame((state) => {
+        if (!meshRef.current) return;
+
+        // Rotate based on hover
+        const t = state.clock.getElapsedTime();
+        meshRef.current.rotation.x = Math.sin(t) * 0.1;
+        meshRef.current.rotation.y = Math.cos(t) * 0.1;
+
+        if (hovered) {
+            meshRef.current.rotation.z += 0.05;
+            meshRef.current.scale.setScalar(1.1 + Math.sin(t * 10) * 0.05);
+        } else {
+            meshRef.current.scale.setScalar(1);
+        }
+    });
+
+    return (
+        <Float speed={5} rotationIntensity={0.2} floatIntensity={0.5}>
+            <group>
+                {/* Main Sphere */}
+                <mesh ref={meshRef}>
+                    <sphereGeometry args={[1.8, 64, 64]} />
+                    <MeshDistortMaterial
+                        color={hovered ? "#0ea5e9" : "#000000"}
+                        emissive={hovered ? "#0ea5e9" : "#0ea5e9"}
+                        emissiveIntensity={hovered ? 0.8 : 0.2}
+                        roughness={0.1}
+                        metalness={0.8}
+                        distort={hovered ? 0.4 : 0}
+                        speed={5}
+                        wireframe={!hovered}
+                    />
+                </mesh>
+
+                {/* Text Label */}
+                <Text
+                    position={[0, 0, 2.2]}
+                    fontSize={0.8}
+                    color={hovered ? "#ffffff" : "#0ea5e9"}
+                    anchorX="center"
+                    anchorY="middle"
+                    font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hjp-Ek-_EeA.woff"
+                >
+                    GO
+                </Text>
+
+                {/* Outer Ring */}
+                <mesh rotation={[Math.PI / 2, 0, 0]}>
+                    <torusGeometry args={[2.5, 0.02, 16, 100]} />
+                    <meshBasicMaterial color="#0ea5e9" transparent opacity={0.3} />
+                </mesh>
+            </group>
+        </Float>
+    );
+}
+
+export default function HyperButton(props: HyperButtonProps) {
+    const [hovered, setHovered] = useState(false);
+
+    return (
+        <div
+            className="w-64 h-64 relative cursor-pointer z-50"
+            onClick={props.disabled ? undefined : props.onClick}
+            onMouseEnter={() => !props.disabled && setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+        >
+            <Canvas>
+                <ambientLight intensity={0.5} />
+                <pointLight position={[10, 10, 10]} />
+                <ButtonMesh hovered={hovered} />
+            </Canvas>
+        </div>
+    );
+}
+
+
+
+================================================
+FILE: src/components/Scene3D.tsx
+================================================
+'use client';
+
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Environment, Stars, PerspectiveCamera } from '@react-three/drei';
+import { useRef, useMemo, useEffect } from 'react';
+import * as THREE from 'three';
+
+// --- Blockchain Network Component ---
+function BlockchainNetwork({ phase }: { phase: 'idle' | 'testing' | 'complete' }) {
+    const meshRef = useRef<THREE.InstancedMesh>(null);
+    const linesRef = useRef<THREE.LineSegments>(null);
+    const groupRef = useRef<THREE.Group>(null);
+
+    // Configuration
+    const count = 150; // Number of nodes
+    const connectionDistance = 4;
+
+    // Generate nodes (blocks)
+    const { positions, colors, connections } = useMemo(() => {
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+        const connections: number[] = [];
+
+        const spread = 30;
+        const color1 = new THREE.Color('#0ea5e9'); // Cyan
+        const color2 = new THREE.Color('#E6007A'); // Magenta (Polkadot)
+        const color3 = new THREE.Color('#ffffff'); // White
+
+        for (let i = 0; i < count; i++) {
+            const i3 = i * 3;
+            // Spread nodes in a cloud
+            positions[i3] = (Math.random() - 0.5) * spread;
+            positions[i3 + 1] = (Math.random() - 0.5) * spread * 0.8;
+            positions[i3 + 2] = (Math.random() - 0.5) * spread;
+
+            // Assign random theme color
+            const rand = Math.random();
+            const color = rand > 0.6 ? color1 : rand > 0.3 ? color2 : color3;
+            colors[i3] = color.r;
+            colors[i3 + 1] = color.g;
+            colors[i3 + 2] = color.b;
+        }
+
+        // Generate connections (simple distance check)
+        const pos = new THREE.Vector3();
+        const otherPos = new THREE.Vector3();
+
+        for (let i = 0; i < count; i++) {
+            pos.set(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+            for (let j = i + 1; j < count; j++) {
+                otherPos.set(positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]);
+                if (pos.distanceTo(otherPos) < connectionDistance) {
+                    connections.push(
+                        positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2],
+                        positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]
+                    );
+                }
+            }
+        }
+
+        return { positions, colors, connections: new Float32Array(connections) };
+    }, []);
+
+    // Setup instances
+    useEffect(() => {
+        if (!meshRef.current) return;
+        const tempObj = new THREE.Object3D();
+        const color = new THREE.Color();
+
+        for (let i = 0; i < count; i++) {
+            tempObj.position.set(
+                positions[i * 3],
+                positions[i * 3 + 1],
+                positions[i * 3 + 2]
+            );
+            // Random rotation unique to each block
+            tempObj.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+            tempObj.scale.setScalar(0.3 + Math.random() * 0.4); // Varied sizes
+            tempObj.updateMatrix();
+            meshRef.current.setMatrixAt(i, tempObj.matrix);
+
+            color.setRGB(colors[i * 3], colors[i * 3 + 1], colors[i * 3 + 2]);
+            meshRef.current.setColorAt(i, color);
+        }
+        meshRef.current.instanceMatrix.needsUpdate = true;
+        if (meshRef.current.instanceColor) meshRef.current.instanceColor.needsUpdate = true;
+    }, [positions, colors]);
+
+    // Animation Loop
+    useFrame((state, delta) => {
+        if (!groupRef.current) return;
+
+        // 1. Idle rotation
+        groupRef.current.rotation.y += delta * 0.05;
+
+        // 2. Camera movement / Warp Effect
+        if (phase === 'testing') {
+            groupRef.current.position.z += delta * 25; // Warp speed
+            if (groupRef.current.position.z > 20) {
+                groupRef.current.position.z = -50;
+            }
+        } else {
+            // Gentle floating
+            groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.5;
+            groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, 0, delta * 2);
+        }
+    });
+
+    return (
+        <group ref={groupRef}>
+            {/* Nodes (Blocks) */}
+            <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
+                <boxGeometry args={[0.5, 0.5, 0.5]} />
+                <meshStandardMaterial
+                    toneMapped={false}
+                    emissive="#0ea5e9"
+                    emissiveIntensity={0.8}
+                    roughness={0.1}
+                    metalness={0.9}
+                />
+            </instancedMesh>
+
+            {/* Connections (Network Lines) */}
+            <lineSegments ref={linesRef}>
+                <bufferGeometry>
+                    {/* Use args to pass array and itemSize to constructor */}
+                    <bufferAttribute
+                        attach="attributes-position"
+                        args={[connections, 3]}
+                    />
+                </bufferGeometry>
+                <lineBasicMaterial
+                    color="#ffffff"
+                    transparent
+                    opacity={0.12}
+                    blending={THREE.AdditiveBlending}
+                    depthWrite={false}
+                />
+            </lineSegments>
+
+            <Stars radius={60} depth={20} count={1000} factor={4} saturation={0} fade speed={1} />
+        </group>
+    );
+}
+
+// --- Chain Connection Component ---
+function ChainLink({ position, rotation, color }: { position: [number, number, number], rotation: [number, number, number], color: string }) {
+    return (
+        <group position={position} rotation={rotation}>
+            <mesh>
+                <torusGeometry args={[0.5, 0.15, 16, 32]} />
+                <meshStandardMaterial
+                    color="#222"
+                    roughness={0.2}
+                    metalness={0.9}
+                />
+            </mesh>
+            {/* Glow effect for the "energy" inside the chain */}
+            <mesh scale={[1, 1, 1]}>
+                <torusGeometry args={[0.5, 0.05, 16, 32]} />
+                <meshBasicMaterial color={color} toneMapped={false} />
+            </mesh>
+        </group>
+    );
+}
+
+function ChainStrand({ count = 8, color, side }: { count?: number, color: string, side: 'left' | 'right' }) {
+    const isLeft = side === 'left';
+    return (
+        <group>
+            {Array.from({ length: count }).map((_, i) => {
+                // Alternating rotation: 0, 90, 0, 90...
+                const isHorizontal = i % 2 === 0;
+                // Position links along X axis
+                const xOffset = i * 0.75 * (isLeft ? 1 : -1);
+
+                return (
+                    <ChainLink
+                        key={i}
+                        position={[xOffset, 0, 0]}
+                        rotation={[isHorizontal ? Math.PI / 2 : 0, 0, 0]}
+                        color={color}
+                    />
+                );
+            })}
+            {/* End hook/connector */}
+            <mesh position={[(count * 0.75) * (isLeft ? 1 : -1), 0, 0]}>
+                <sphereGeometry args={[0.2]} />
+                <meshBasicMaterial color={color} toneMapped={false} />
+            </mesh>
+        </group>
+    );
+}
+
+function ChainLockAnimation({ phase }: { phase: string }) {
+    const leftChain = useRef<THREE.Group>(null);
+    const rightChain = useRef<THREE.Group>(null);
+    const sparkRef = useRef<THREE.PointLight>(null);
+
+    useFrame((state) => {
+        if (!leftChain.current || !rightChain.current) return;
+
+        // Target positions
+        let targetXLeft = -6.5;
+        let targetXRight = 6.5;
+
+        // Idle: Offscreen
+        if (phase === 'idle') {
+            targetXLeft = -15;
+            targetXRight = 15;
+        }
+        // Testing: Interlock
+        else if (phase === 'testing') {
+            // Slight overlap for locking
+            targetXLeft = -5.8;
+            targetXRight = 5.8;
+        }
+        // Complete: Pull away
+        else if (phase === 'complete') {
+            targetXLeft = -20;
+            targetXRight = 20;
+        }
+
+        // Animate
+        const lerpFactor = phase === 'testing' ? 0.08 : 0.05;
+        leftChain.current.position.x = THREE.MathUtils.lerp(leftChain.current.position.x, targetXLeft, lerpFactor);
+        rightChain.current.position.x = THREE.MathUtils.lerp(rightChain.current.position.x, targetXRight, lerpFactor);
+
+        // Add some tension/shake when locked
+        if (phase === 'testing' && Math.abs(leftChain.current.position.x - targetXLeft) < 0.5) {
+            const shake = Math.sin(state.clock.elapsedTime * 50) * 0.05;
+            leftChain.current.position.y = shake;
+            rightChain.current.position.y = -shake;
+        } else {
+            leftChain.current.position.y = THREE.MathUtils.lerp(leftChain.current.position.y, 0, 0.1);
+            rightChain.current.position.y = THREE.MathUtils.lerp(rightChain.current.position.y, 0, 0.1);
+        }
+
+        // Spark Effect
+        if (sparkRef.current) {
+            if (phase === 'testing' && Math.abs(leftChain.current.position.x - targetXLeft) < 0.5) {
+                sparkRef.current.intensity = THREE.MathUtils.lerp(sparkRef.current.intensity, 10, 0.2);
+            } else {
+                sparkRef.current.intensity = THREE.MathUtils.lerp(sparkRef.current.intensity, 0, 0.2);
+            }
+        }
+    });
+
+    return (
+        <group position={[0, -1, 5]}> {/* Positioned clearly in view */}
+            <group ref={leftChain} position={[-15, 0, 0]}>
+                <ChainStrand side="left" color="#0ea5e9" count={10} />
+            </group>
+            <group ref={rightChain} position={[15, 0, 0]}>
+                <ChainStrand side="right" color="#E6007A" count={10} />
+            </group>
+
+            {/* Spark at center */}
+            <pointLight
+                ref={sparkRef}
+                position={[0, 0, 0]}
+                color="#ffffff"
+                distance={8}
+                decay={2}
+            />
+        </group>
+    );
+}
+
+interface Scene3DProps {
+    speed: number;
+    phase: 'idle' | 'testing' | 'complete';
+}
+
+export default function Scene3D({ speed, phase }: Scene3DProps) {
+    return (
+        <div className="w-full h-full absolute inset-0 bg-black">
+            <Canvas dpr={[1, 2]} gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}>
+                <PerspectiveCamera makeDefault position={[0, 0, 15]} fov={60} />
+
+                {/* Lighting */}
+                <ambientLight intensity={0.5} />
+                <pointLight position={[10, 10, 10]} intensity={1} color="#0ea5e9" />
+                <pointLight position={[-10, -10, -10]} intensity={1} color="#E6007A" />
+
+                {/* The Blockchain Network */}
+                <BlockchainNetwork phase={phase} />
+
+                {/* The Chain Connection Animation */}
+                <ChainLockAnimation phase={phase} />
+
+                {/* Post-processing-like effects via environment */}
+                <Environment preset="city" />
+                <fog attach="fog" args={['#000000', 5, 50]} />
+            </Canvas>
+        </div>
+    );
+}
+
+
+
+================================================
+FILE: src/lib/api.ts
+================================================
+// API client for ChainSpeed backend
+import { StartTestRequest, StartTestResponse, ChainConfig } from '@chainspeed/shared';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+export async function startTest(request: StartTestRequest): Promise<StartTestResponse> {
+    const response = await fetch(`${API_URL}/api/test/start`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to start test');
+    }
+
+    return response.json();
+}
+
+export async function getChains(): Promise<{ chains: ChainConfig[]; supported: string[] }> {
+    const response = await fetch(`${API_URL}/api/chains`);
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch chains');
+    }
+
+    return response.json();
+}
+
+export async function getTestResult(testId: string): Promise<any> {
+    const response = await fetch(`${API_URL}/api/result/${testId}`);
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch test result');
+    }
+
+    return response.json();
+}
+
+export async function getLeaderboard(): Promise<any> {
+    const response = await fetch(`${API_URL}/api/leaderboard`);
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch leaderboard');
+    }
+
+    return response.json();
+}
+
+
+
+================================================
+FILE: src/lib/socket.ts
+================================================
+// Socket.io client for real-time test updates
+import { io, Socket } from 'socket.io-client';
+import {
+    TestProgressEvent,
+    TestResultEvent,
+    TestCompleteEvent,
+    TestErrorEvent,
+} from '@chainspeed/shared';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+let socket: Socket | null = null;
+
+export function getSocket(): Socket {
+    if (!socket) {
+        socket = io(API_URL, {
+            transports: ['websocket', 'polling'],
+            autoConnect: true,
+        });
+
+        socket.on('connect', () => {
+            console.log('[Socket] Connected:', socket?.id);
+        });
+
+        socket.on('disconnect', () => {
+            console.log('[Socket] Disconnected');
+        });
+
+        socket.on('connect_error', (error) => {
+            console.error('[Socket] Connection error:', error);
+        });
+    }
+
+    return socket;
+}
+
+export function getSocketId(): string | undefined {
+    return socket?.id;
+}
+
+export function joinTestRoom(testId: string): void {
+    if (socket) {
+        socket.emit('join:test', testId);
+    }
+}
+
+export function onProgress(callback: (event: TestProgressEvent) => void): () => void {
+    const socket = getSocket();
+    socket.on('test:progress', callback);
+    return () => socket.off('test:progress', callback);
+}
+
+export function onResult(callback: (event: TestResultEvent) => void): () => void {
+    const socket = getSocket();
+    socket.on('test:result', callback);
+    return () => socket.off('test:result', callback);
+}
+
+export function onComplete(callback: (event: TestCompleteEvent) => void): () => void {
+    const socket = getSocket();
+    socket.on('test:complete', callback);
+    return () => socket.off('test:complete', callback);
+}
+
+export function onError(callback: (event: TestErrorEvent) => void): () => void {
+    const socket = getSocket();
+    socket.on('test:error', callback);
+    return () => socket.off('test:error', callback);
+}
+
+export function disconnectSocket(): void {
+    if (socket) {
+        socket.disconnect();
+        socket = null;
+    }
+}
+
+

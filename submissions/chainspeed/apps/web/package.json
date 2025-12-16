@@ -1,0 +1,35 @@
+{
+    "name": "@chainspeed/web",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@chainspeed/shared": "*",
+        "@react-three/drei": "^10.7.7",
+        "@react-three/fiber": "^9.4.2",
+        "@types/three": "^0.181.0",
+        "clsx": "^2.1.1",
+        "framer-motion": "^11.0.3",
+        "gsap": "^3.13.0",
+        "next": "^15.0.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "socket.io-client": "^4.7.2",
+        "tailwind-merge": "^3.4.0",
+        "three": "^0.181.2"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.5",
+        "@types/react": "^18.2.45",
+        "@types/react-dom": "^18.2.18",
+        "autoprefixer": "^10.4.16",
+        "postcss": "^8.4.32",
+        "tailwindcss": "^3.4.0",
+        "typescript": "^5.3.3"
+    }
+}

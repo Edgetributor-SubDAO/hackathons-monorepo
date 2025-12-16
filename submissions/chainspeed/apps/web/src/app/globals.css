@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0d0d0f;
+  --foreground: #f7f7f8;
+  --primary: #0ea5e9;
+  --primary-glow: rgba(14, 165, 233, 0.4);
+  --polkadot: #E6007A;
+  --stellar: #7C3AED;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #40414f;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #565869;
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated background gradient */
+.animated-bg {
+  background: linear-gradient(-45deg, #0d0d0f, #1a1a2e, #16213e, #0d0d0f);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* GO button glow */
+.go-button-glow {
+  box-shadow: 
+    0 0 20px var(--primary-glow),
+    0 0 40px var(--primary-glow),
+    0 0 60px var(--primary-glow);
+}
+
+.go-button-glow:hover {
+  box-shadow: 
+    0 0 30px var(--primary-glow),
+    0 0 60px var(--primary-glow),
+    0 0 90px var(--primary-glow);
+}
+
+/* Progress bar animation */
+.progress-bar-animated {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Chain cards */
+.chain-card {
+  transition: all 0.3s ease;
+}
+
+.chain-card:hover {
+  transform: translateY(-4px);
+}
+
+.chain-card.winner {
+  border-color: var(--primary);
+  box-shadow: 0 0 30px var(--primary-glow);
+}
+
+/* Score bar */
+.score-bar {
+  transition: width 0.5s ease-out;
+}
+
+/* Pulse animation for testing state */
+@keyframes testing-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.testing-pulse {
+  animation: testing-pulse 1.5s ease-in-out infinite;
+}
+
+/* Winner celebration */
+@keyframes celebrate {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.05); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.02); }
+}
+
+.celebrate {
+  animation: celebrate 0.6s ease-out;
+}
+
+/* Metric value counter animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.count-up {
+  animation: countUp 0.3s ease-out forwards;
+}
