@@ -1,0 +1,29 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@polkadot/api": "^16.5.3",
+    "@polkadot/extension-dapp": "^0.62.6",
+    "@stellar/freighter-api": "^6.0.1",
+    "@stellar/stellar-sdk": "^14.4.1",
+    "ethers": "^6.16.0",
+    "next": "16.0.7",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
