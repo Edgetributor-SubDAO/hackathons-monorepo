@@ -1,135 +1,126 @@
-# [Your Project Name]
+# Neon Arena
 
-> **Note:** This is a template. Copy this file to your submission folder and fill in the details.
+**Tagline**: Play Epic Games. Win Real Rewards. Earn in Crypto.
 
 ## 📋 Project Overview
 
-**Project Name:** [Your Project Name]
+**Project Name**: Neon Arena
 
-**Tagline:** [One-line description of your project]
-
-**Description:**
-[Provide a detailed description of your project. What problem does it solve? What makes it unique?]
+**Description**: 
+Neon Arena is a high-speed, cyberpunk-themed arcade shooter built to bridge the gap between casual gaming and Web3. It solves the problem of complex user onboarding in blockchain games by offering a seamless "play-first" experience. Players compete in "Target Blitz" mode to climb an on-chain leaderboard and win weekly crypto prize pools. Built for the Polkadot ecosystem (Moonbeam) and integrated with Stellar, it demonstrates how cross-chain UX can be smooth and rewarding.
 
 ## 👥 Team Information
 
-**Team Name:** [Your Team Name]
+**Team Name**: Neon Arena Team
 
-**Team Members:**
-- [Team Member 1 Name](https://github.com/username1) - [Role/Contribution]
-- [Team Member 2 Name](https://github.com/username2) - [Role/Contribution]
-- [Team Member 3 Name](https://github.com/username3) - [Role/Contribution]
+**Team Members**:
+- **Suhail Afnan** ([@suhailafnan](https://github.com/suhailafnan))
+- **Hilmi KT**
+- **Anandhu P**
 
 ## 🛠️ Technologies Used
 
-- **Frontend:** [e.g., React, Vue, Next.js]
-- **Backend:** [e.g., Node.js, Python, Rust]
-- **Blockchain:** [e.g., Ethereum, Solana, Polygon]
-- **Smart Contracts:** [e.g., Solidity, Rust]
-- **Other Tools:** [e.g., IPFS, The Graph, etc.]
+- **Frontend**: Next.js 14, React, Tailwind CSS, Framer Motion, TypeScript
+- **Blockchain**: Polkadot (Moonbase Alpha Parachain), Stellar (Freighter Wallet)
+- **Smart Contracts**: Solidity (Hardhat)
+- **Tools**: Ethers.js, Polkadot.js extensions
 
 ## 🏗️ Architecture
 
-[Describe your project architecture. Include diagrams if helpful.]
-
-```
-[You can include architecture diagrams or code structure here]
-```
+The application is a Next.js web app.
+1. **Frontend**: Handles game logic (Canvas API) and user interaction.
+2. **Smart Contract**: `GameLeaderboard.sol` on Moonbase Alpha stores player stats, high scores, and weekly leaderboard rankings.
+3. **Wallet Integration**: Supports MetaMask (EVM) for Moonbeam and Freighter for Stellar.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-
-- [List prerequisites, e.g., Node.js 18+, Python 3.9+, etc.]
+- Node.js 18+
+- MetaMask or Polkadot.js Extension (configured for Moonbase Alpha)
+- Freighter Wallet (optional for Stellar features)
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
-cd <project-directory>
+git clone https://github.com/suhailafnan/neon-arena.git
+cd neon-arena
 
 # Install dependencies
-[Add installation commands]
+cd frontend
+npm install
+# (Optional) Install contract dependencies
+cd ../contracts
+npm install
 ```
 
 ### Configuration
 
-[Describe any environment variables or configuration needed]
-
-```bash
-# Example
-cp .env.example .env
-# Edit .env with your configuration
-```
+1. Create a `.env.local` file in the `frontend` directory:
+   ```bash
+   cp .env.local.example .env.local
+   ```
+2. Add your environment variables (Contract address is pre-configured):
+   ```
+   NEXT_PUBLIC_LEADERBOARD_CONTRACT=0x9B24B5f503A27dB53AB17B371C7C58A94103C051
+   ```
 
 ### Running the Project
 
 ```bash
-# Development
-[Add commands to run in development]
-
-# Production
-[Add commands to run in production]
+# Run Frontend
+cd frontend
+npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) to play.
 
 ## 📱 Features
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
+1. **Fast-Paced Arcade Gameplay**: Responsive "Target Blitz" shooter game.
+2. **On-Chain Leaderboard**: verifiable high scores stored on Moonbase Alpha.
+3. **Multi-Wallet Support**: Connect with MetaMask (Moonbeam) or Freighter (Stellar).
+4. **Weekly Resets**: Leaderboard resets weekly to keep competition fresh.
 
 ## 🎯 Use Cases
 
-[Describe the main use cases for your project]
+- **Casual Gamers**: Play a fun game and earn crypto without high barriers to entry.
+- **Web3 Onboarding**: Serves as an educational funnel to get users their first wallet and tokens.
+- **Competitive Esports**: Weekly tournaments with transparent, smart-contract managed payouts.
 
 ## 🔗 Links & Resources
 
-- **Live Demo:** [URL if available]
-- **Video Demo:** [Link to video walkthrough if available]
-- **Smart Contract Addresses (with Chain name):** [If applicable]
-  - Contract 1 (on Chain A): `0x...`
-  - Contract 2 (on Chain A): `0x...`
-  - Contract 3 (on Chain B): `0x...`
-- **Documentation:** [Link to additional docs if available]
-- **Presentation:** [Link to pitch deck or presentation if available]
+- **Smart Contract (Moonbase Alpha)**: `0x9B24B5f503A27dB53AB17B371C7C58A94103C051`
+  - [View on Moonscan](https://moonbase.moonscan.io/address/0x9B24B5f503A27dB53AB17B371C7C58A94103C051)
 
 ## 📸 Screenshots
 
-[Add screenshots or GIFs of your project]
-
-![Screenshot 1](path/to/screenshot1.png)
-![Screenshot 2](path/to/screenshot2.png)
+*(Add your screenshots here)*
 
 ## 🧪 Testing
 
-[Describe your testing approach]
-
 ```bash
-# Run tests
-[Add test commands]
+# Run contract tests
+cd contracts
+npx hardhat test
 ```
 
-## 🚧 Challenges & Solutions
+## � Challenges & Solutions
 
-[Describe any significant challenges you faced and how you solved them]
+- **Challenge**: Handling wallet connection states across different chains (EVM vs Substrate vs Stellar).
+  - **Solution**: Abstracted wallet logic into a unified service layer handling different providers.
+- **Challenge**: Latency in on-chain updates.
+  - **Solution**: Implemented optimistic UI updates and auto-refresh triggers to show leaderboard changes immediately after transaction confirmation.
 
-## 🔮 Future Improvements
+## � Future Improvements
 
-[What would you build next if you had more time?]
-
-- [ ] Improvement 1
-- [ ] Improvement 2
-- [ ] Improvement 3
+1. **NFT Skins**: Mint game assets as NFTs on Moonbeam.
+2. **Staking**: Stake DEV/GLMR to enter high-stakes arenas.
+3. **Cross-Chain Messaging**: Unified score state across Polkadot and Stellar using XCM.
 
 ## 📄 License
 
-[Specify your license, e.g., MIT, Apache 2.0, etc.]
+MIT License
 
 ## 🙏 Acknowledgments
 
-[Thank any libraries, tools, or people that helped]
-
----
-
-**Built for Stellar x Polkadot Hackerhouse BLR** 🎉
+Built for **Stellar x Polkadot Hackerhouse BLR** 🎉
