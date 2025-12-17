@@ -1,0 +1,192 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ConnectWallet from '../components/connect-wallet.astro';
+---
+
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<Layout>
+	<div class="landing">
+		<div class="hero">
+			
+			<!-- PROJECT LOGO -->
+			<img src="https://cryptologos.cc/logos/stellar-xlm-logo.svg" alt="Stellar" class="hero-logo">
+
+			<!-- TITLE IN GREEN -->
+			<h1 class="project-title">Aspirine — Emergency Fund DAO</h1>
+
+			<p class="tagline">Decentralized medical emergency funding on the Stellar blockchain</p>
+			
+			<div class="wallet-container">
+				<ConnectWallet />
+			</div>
+
+			<a href="/dao" class="cta-button">
+				<span>Launch App</span>
+				<span class="arrow">→</span>
+			</a>
+
+			<div class="features">
+				<div class="feature">
+					<div class="feature-icon">🏥</div>
+					<h3>Hospitals Submit</h3>
+					<p>Medical facilities submit emergency funding requests</p>
+				</div>
+				<div class="feature">
+					<div class="feature-icon">🗳️</div>
+					<h3>Members Vote</h3>
+					<p>DAO members democratically vote on proposals</p>
+				</div>
+				<div class="feature">
+					<div class="feature-icon">💰</div>
+					<h3>Funds Release</h3>
+					<p>Approved proposals receive instant funding</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	/* GLOBAL RESET + POPPINS */
+	:global(body) {
+		font-family: "Poppins", sans-serif;
+		background: #000; /* Black background */
+		color: #fff; /* White text */
+		margin: 0;
+		min-height: 100vh;
+	}
+
+	h1, h2, h3, p, a, button, span {
+		font-family: "Poppins", sans-serif;
+	}
+
+	.landing {
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem;
+	}
+
+	.hero {
+		text-align: center;
+		max-width: 900px;
+	}
+
+	.project-title {
+		font-size: 3rem;
+		font-weight: 800;
+		margin-bottom: 1rem;
+		color: #00ff88; /* Green title */
+		text-shadow: 0 0 12px rgba(0,255,140,0.25);
+		animation: fadeIn 0.8s ease;
+	}
+
+	.hero-logo {
+		width: 90px;
+		height: 90px;
+		filter: drop-shadow(0 4px 20px rgba(0,255,140,0.25));
+		margin-bottom: 1.5rem;
+		animation: float 3s ease-in-out infinite;
+	}
+
+	@keyframes float {
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(-10px); }
+	}
+
+	.tagline {
+		font-size: 1.2rem;
+		margin-bottom: 2rem;
+		opacity: 0.85;
+	}
+
+	.wallet-container {
+		max-width: 500px;
+		margin: 2rem auto;
+	}
+
+	/* WHITE BUTTON WITH GREEN ACCENT */
+	.cta-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 1.1rem 2.3rem;
+		background: #fff;
+		color: #000;
+		text-decoration: none;
+		font-size: 1.2rem;
+		font-weight: 700;
+		border-radius: 50px;
+		box-shadow: 0 0 20px rgba(0,255,140,0.25);
+		transition: all 0.3s ease;
+	}
+
+	.cta-button:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 0 30px rgba(0,255,140,0.4);
+	}
+
+	.cta-button .arrow {
+		transition: transform 0.3s ease;
+	}
+
+	.cta-button:hover .arrow {
+		transform: translateX(5px);
+	}
+
+	/* FEATURES */
+	.features {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+		margin-top: 4rem;
+	}
+
+	.feature {
+		background: rgba(255,255,255,0.05);
+		padding: 2rem;
+		border-radius: 16px;
+		border: 1px solid rgba(255,255,255,0.12);
+		transition: all 0.3s ease;
+	}
+
+	.feature:hover {
+		transform: translateY(-6px);
+		border-color: #00ff88;
+		box-shadow: 0 0 16px rgba(0,255,140,0.2);
+	}
+
+	.feature-icon {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+	}
+
+	.feature h3 {
+		margin: 0;
+		font-size: 1.3rem;
+		font-weight: 600;
+		color: #00ff88;
+	}
+
+	.feature p {
+		margin-top: 0.5rem;
+		opacity: 0.85;
+	}
+
+	@keyframes fadeIn {
+		from { opacity: 0; transform: translateY(20px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+
+	@media (max-width: 768px) {
+		.project-title {
+			font-size: 2rem;
+		}
+		.tagline {
+			font-size: 1rem;
+		}
+	}
+</style>

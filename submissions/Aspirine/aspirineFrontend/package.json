@@ -1,0 +1,18 @@
+{
+  "name": "aspirinefrontend",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@creit-tech/stellar-wallets-kit": "npm:@jsr/creit-tech__stellar-wallets-kit@^2.0.0-beta.6",
+    "@creit.tech/stellar-wallets-kit": "^1.9.5",
+    "astro": "^5.16.4",
+    "buffer": "^6.0.3",
+    "process": "^0.11.10"
+  }
+}

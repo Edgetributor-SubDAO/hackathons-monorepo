@@ -1,0 +1,476 @@
+---
+import background from '../assets/background.svg';
+import * as Client from '../../packages/aspirine/src/index';
+---
+
+<div id="container">
+	<img id="background" src={background.src} />
+	<main>
+		<section id="hero">
+			<img width="160" height="160" src="https://cryptologos.cc/logos/stellar-xlm-logo.svg" alt="Stellar Logo" />
+			<h1>Emergency Fund Release DAO</h1>
+			<p class="tagline">
+				Connect your wallet to initialize the DAO and help people in medical emergencies
+			</p>
+		</section>
+
+		<section id="wallet-section">
+			<h2>Step 1: Connect Your Wallet</h2>
+			<div id="wallet-button-container"></div>
+			<p id="wallet-status" class="status-message"></p>
+		</section>
+
+		<section id="dao-section" style="display: none;">
+			<h2>Step 2: Initialize the DAO</h2>
+			<form id="initialize-form">
+				<div class="form-group">
+					<label for="voting-threshold">
+						Voting Threshold (%)
+						<span class="help-text">Minimum percentage of votes needed for proposal approval</span>
+					</label>
+					<input 
+						type="number" 
+						id="voting-threshold" 
+						name="votingThreshold" 
+						min="51" 
+						max="100" 
+						value="66" 
+						required 
+					/>
+				</div>
+				<button type="submit" class="primary-button">
+					Initialize DAO
+				</button>
+			</form>
+			<div id="result-message" class="result-message"></div>
+		</section>
+
+		<section id="info-box" class="box">
+			<h3>What is this DAO?</h3>
+			<p>
+				The Emergency Fund Release DAO helps people in medical emergencies by allowing:
+			</p>
+			<ul>
+				<li>🏥 Hospitals to submit funding proposals for patients in need</li>
+				<li>🗳️ DAO members to vote on which proposals to approve</li>
+				<li>💰 Automatic fund release when proposals are approved</li>
+				<li>🔒 Secure and transparent blockchain-based operations</li>
+			</ul>
+		</section>
+	</main>
+</div>
+
+<style>
+	#container {
+		position: relative;
+		width: 100%;
+		min-height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	#background {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		z-index: -1;
+	}
+
+	main {
+		width: 100%;
+		max-width: 800px;
+		padding: 2rem;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	section {
+		background: rgba(255, 255, 255, 0.95);
+		backdrop-filter: blur(10px);
+		border-radius: 1rem;
+		padding: 2rem;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	}
+
+	#hero {
+		text-align: center;
+	}
+
+	#hero img {
+		margin: 0 auto 1rem;
+		filter: drop-shadow(0 0 20px rgba(0, 100, 255, 0.3));
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 700;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		margin-bottom: 0.5rem;
+	}
+
+	.tagline {
+		font-size: 1.1rem;
+		color: #555;
+		margin: 0;
+	}
+
+	h2 {
+		font-size: 1.5rem;
+		color: #333;
+		margin-bottom: 1rem;
+		border-bottom: 2px solid #667eea;
+		padding-bottom: 0.5rem;
+	}
+
+	#wallet-button-container {
+		min-height: 50px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 1rem 0;
+	}
+
+	.status-message {
+		text-align: center;
+		padding: 0.75rem;
+		border-radius: 0.5rem;
+		font-weight: 500;
+		margin-top: 1rem;
+	}
+
+	.status-message.success {
+		background: #d4edda;
+		color: #155724;
+		border: 1px solid #c3e6cb;
+	}
+
+	.status-message.error {
+		background: #f8d7da;
+		color: #721c24;
+		border: 1px solid #f5c6cb;
+	}
+
+	.status-message.info {
+		background: #d1ecf1;
+		color: #0c5460;
+		border: 1px solid #bee5eb;
+	}
+
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+	label {
+		display: block;
+		font-weight: 600;
+		color: #333;
+		margin-bottom: 0.5rem;
+	}
+
+	.help-text {
+		display: block;
+		font-size: 0.85rem;
+		font-weight: 400;
+		color: #666;
+		margin-top: 0.25rem;
+	}
+
+	input {
+		width: 100%;
+		padding: 0.75rem;
+		border: 2px solid #ddd;
+		border-radius: 0.5rem;
+		font-size: 1rem;
+		transition: border-color 0.2s;
+	}
+
+	input:focus {
+		outline: none;
+		border-color: #667eea;
+	}
+
+	.primary-button {
+		width: 100%;
+		padding: 1rem;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		border: none;
+		border-radius: 0.5rem;
+		font-size: 1.1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	.primary-button:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
+	}
+
+	.primary-button:active {
+		transform: translateY(0);
+	}
+
+	.primary-button:disabled {
+		background: #ccc;
+		cursor: not-allowed;
+		transform: none;
+	}
+
+	.result-message {
+		margin-top: 1rem;
+		padding: 1rem;
+		border-radius: 0.5rem;
+		display: none;
+	}
+
+	.result-message.show {
+		display: block;
+	}
+
+	.result-message.success {
+		background: #d4edda;
+		color: #155724;
+		border: 1px solid #c3e6cb;
+	}
+
+	.result-message.error {
+		background: #f8d7da;
+		color: #721c24;
+		border: 1px solid #f5c6cb;
+	}
+
+	.box {
+		background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+		border: 2px solid rgba(102, 126, 234, 0.3);
+	}
+
+	.box h3 {
+		color: #667eea;
+		margin-top: 0;
+		margin-bottom: 1rem;
+	}
+
+	.box p {
+		color: #555;
+		line-height: 1.6;
+	}
+
+	.box ul {
+		margin: 1rem 0 0 0;
+		padding-left: 0;
+		list-style: none;
+	}
+
+	.box li {
+		padding: 0.5rem 0;
+		color: #333;
+		font-size: 1rem;
+		line-height: 1.6;
+	}
+
+	@media (max-width: 768px) {
+		main {
+			padding: 1rem;
+		}
+
+		h1 {
+			font-size: 2rem;
+		}
+
+		section {
+			padding: 1.5rem;
+		}
+	}
+</style>
+
+<script>
+	import { StellarWalletsKit, WalletNetwork, WalletType } from '@creit-tech/stellar-wallets-kit';
+	import * as Client from '../../packages/aspirine/src/index';
+
+	// Wait for DOM to be ready
+	document.addEventListener('DOMContentLoaded', async () => {
+		console.log('DOM loaded, initializing wallet integration...');
+
+		let walletKit: StellarWalletsKit;
+		let connectedPublicKey: string | null = null;
+
+		// Initialize Stellar Wallets Kit
+		try {
+			const container = document.getElementById('wallet-button-container');
+			if (!container) {
+				console.error('Wallet button container not found');
+				return;
+			}
+
+			walletKit = new StellarWalletsKit({
+				network: WalletNetwork.TESTNET,
+				selectedWalletId: WalletType.FREIGHTER,
+				modules: [
+					{
+						id: WalletType.FREIGHTER,
+						name: 'Freighter',
+						type: WalletType.FREIGHTER,
+						moduleType: 'FREIGHTER',
+						iconUrl: 'https://stellar.creit.tech/wallet-icons/freighter.svg',
+					}
+				]
+			});
+
+			console.log('Wallet kit initialized');
+
+			// Create connect button
+			const connectButton = document.createElement('button');
+			connectButton.className = 'primary-button';
+			connectButton.textContent = 'Connect Freighter Wallet';
+			connectButton.style.maxWidth = '300px';
+			container.appendChild(connectButton);
+
+			// Handle wallet connection
+			connectButton.addEventListener('click', async () => {
+				try {
+					connectButton.disabled = true;
+					connectButton.textContent = 'Connecting...';
+					
+					await walletKit.openModal({
+						onWalletSelected: async (option: any) => {
+							try {
+								walletKit.setWallet(option.id);
+								const publicKey = await walletKit.getPublicKey();
+								
+								connectedPublicKey = publicKey;
+								console.log('Connected with public key:', publicKey);
+								
+								// Update UI
+								connectButton.textContent = `Connected: ${publicKey.slice(0, 8)}...${publicKey.slice(-8)}`;
+								connectButton.disabled = true;
+								
+								const statusElement = document.getElementById('wallet-status');
+								if (statusElement) {
+									statusElement.textContent = `✅ Wallet connected successfully!`;
+									statusElement.className = 'status-message success';
+								}
+
+								// Show DAO initialization section
+								const daoSection = document.getElementById('dao-section');
+								if (daoSection) {
+									daoSection.style.display = 'block';
+								}
+							} catch (error) {
+								console.error('Error during wallet selection:', error);
+								connectButton.disabled = false;
+								connectButton.textContent = 'Connect Freighter Wallet';
+								showStatus('error', `Connection failed: ${error instanceof Error ? error.message : String(error)}`);
+							}
+						}
+					});
+				} catch (error) {
+					console.error('Error opening wallet modal:', error);
+					connectButton.disabled = false;
+					connectButton.textContent = 'Connect Freighter Wallet';
+					showStatus('error', `Failed to open wallet: ${error instanceof Error ? error.message : String(error)}`);
+				}
+			});
+
+		} catch (error) {
+			console.error('Error initializing wallet kit:', error);
+			showStatus('error', `Wallet initialization failed: ${error instanceof Error ? error.message : String(error)}`);
+		}
+
+		// Handle DAO initialization form submission
+		const form = document.getElementById('initialize-form') as HTMLFormElement;
+		form?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+
+			if (!connectedPublicKey) {
+				showResult('error', 'Please connect your wallet first');
+				return;
+			}
+
+			const formData = new FormData(form);
+			const votingThreshold = parseInt(formData.get('votingThreshold') as string);
+
+			if (votingThreshold < 51 || votingThreshold > 100) {
+				showResult('error', 'Voting threshold must be between 51 and 100');
+				return;
+			}
+
+			const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+			submitButton.disabled = true;
+			submitButton.textContent = 'Initializing...';
+			showResult('info', 'Building transaction...');
+
+			try {
+				// Create contract client
+				const contract = new Client.Client({
+					...Client.networks.testnet,
+					rpcUrl: 'https://soroban-testnet.stellar.org:443',
+					publicKey: connectedPublicKey,
+				});
+
+				console.log('Calling initialize with:', {
+					admin: connectedPublicKey,
+					voting_threshold: votingThreshold
+				});
+
+				// Call initialize function
+				const tx = await contract.initialize({
+					admin: connectedPublicKey,
+					voting_threshold: votingThreshold
+				});
+
+				showResult('info', 'Transaction built. Please sign in your wallet...');
+
+				// Sign transaction with wallet
+				const signedTx = await walletKit.sign({
+					xdr: tx.toXDR(),
+					publicKey: connectedPublicKey,
+					network: WalletNetwork.TESTNET,
+				});
+
+				showResult('info', 'Transaction signed. Submitting to network...');
+
+				// Submit transaction (the library handles this)
+				console.log('Transaction signed:', signedTx);
+
+				showResult('success', `✅ DAO initialized successfully! Admin: ${connectedPublicKey.slice(0, 8)}..., Threshold: ${votingThreshold}%`);
+				
+				// Disable form after success
+				form.querySelectorAll('input, button').forEach(el => {
+					(el as HTMLInputElement | HTMLButtonElement).disabled = true;
+				});
+
+			} catch (error) {
+				console.error('Error initializing DAO:', error);
+				showResult('error', `Failed to initialize DAO: ${error instanceof Error ? error.message : String(error)}`);
+				submitButton.disabled = false;
+				submitButton.textContent = 'Initialize DAO';
+			}
+		});
+
+		// Helper functions
+		function showStatus(type: 'success' | 'error' | 'info', message: string) {
+			const statusElement = document.getElementById('wallet-status');
+			if (statusElement) {
+				statusElement.textContent = message;
+				statusElement.className = `status-message ${type}`;
+			}
+		}
+
+		function showResult(type: 'success' | 'error' | 'info', message: string) {
+			const resultElement = document.getElementById('result-message');
+			if (resultElement) {
+				resultElement.textContent = message;
+				resultElement.className = `result-message show ${type}`;
+			}
+		}
+	});
+</script>
